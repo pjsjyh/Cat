@@ -1,0 +1,19 @@
+# Ignore everything in the Cat project
+/Cat/*
+
+# But do not ignore the Assets folder and its Scripts folder
+!/Cat/Assets/
+!/Cat/Assets/Scripts/
+!/Cat/Assets/Scripts/**/*.cs
+
+# Ignore meta files except in the Scripts folder
+/Cat/Assets/**/*.meta
+!/Cat/Assets/Scripts/**/*.meta
+
+# Ignore generated project files and other build artifacts
+/Cat/Library/
+/Cat/Temp/
+/Cat/Obj/
+/Cat/Build/
+/Cat/Builds/
+/Cat/Logs/
