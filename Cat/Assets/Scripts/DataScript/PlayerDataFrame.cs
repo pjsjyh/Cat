@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerDataFrame : MonoBehaviour
 {
     //플레이어가 저장할 데이터 총괄 관리
-
+    [System.Serializable]
     public class PlayerData
     {
         public PlayerPersonalData playerPersonalData;
@@ -16,7 +16,7 @@ public class PlayerDataFrame : MonoBehaviour
         {
             playerPersonalData = new PlayerPersonalData
             {
-                playerName = "newName",
+                playerName = "newName222",
                 playerCoin = 0,
                 playerCash = 0
             };
@@ -25,32 +25,22 @@ public class PlayerDataFrame : MonoBehaviour
             catData = new PlayerCatData();   // List 초기화 포함
         }
     }
+    [System.Serializable]
     public class PlayerPersonalData
     {
         public string playerName;
         public int playerCoin;
         public int playerCash;
     }
+    [System.Serializable]
     public class PlayerRoomData
     {
-
-    }
-    public class Furniture
-    {
-        //위치, 이름, 설치여부
+        List<Furniture> furnitureList = new List<Furniture>();
     }
 
+    [System.Serializable]
     public class PlayerCatData
     {
-        List<CatData> catDataList = new List<CatData>();
-    }
-
-    public class CatData
-    {
-        //각 고양이 애니메이션, 코스튬, 장비
-        public float health;
-        public string name;
-        public float jump;
-        public string currentRoomNum;
+        List<Cat> catDataList = new List<Cat>();
     }
 }

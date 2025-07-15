@@ -20,14 +20,16 @@ public class PlayerDataManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject); // 씬이 바뀌어도 유지되게
-
+        playerData = DataManager.LoadData();
         StartCoroutine(LoadScene());
-        Debug.Log(playerData);
+        
     }
-    public void SavePlayerData()
+    //종료시 데이터 자동 저장
+    private void OnApplicationQuit()
     {
-        SaveDataManager.SaveData(playerData);
+        DataManager.SaveData(playerData);
     }
+    // title -> loading -> 데이터 셋팅 -> main
     private IEnumerator LoadScene()
     {
         yield return new WaitForSeconds(3f); // 3초 대기

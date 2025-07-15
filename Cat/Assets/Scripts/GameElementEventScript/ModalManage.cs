@@ -11,8 +11,5 @@ public class ModalManage : MonoBehaviour
     {
         getModal.SetActive(true);
     }
-    public void CHekc()
-    {
-        Debug.Log("!");
-    }
+    
 }
