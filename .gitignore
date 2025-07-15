@@ -3,6 +3,8 @@
 
 # But do not ignore the Assets folder and its Scripts folder
 !/Cat/Assets/
+!/Cat/Packages/
+!/Cat/ProjectSettings/
 !/Cat/Assets/Scripts/
 !/Cat/Assets/Scripts/**/*.cs
 
