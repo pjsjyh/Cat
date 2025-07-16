@@ -1,21 +1,33 @@
-# Ignore everything in the Cat project
-/Cat/*
+# Unity 자동 생성 폴더 무시
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
 
-# But do not ignore the Assets folder and its Scripts folder
-!/Cat/Assets/
-!/Cat/Packages/
-!/Cat/ProjectSettings/
-!/Cat/Assets/Scripts/
-!/Cat/Assets/Scripts/**/*.cs
+# Visual Studio 관련
+.vs/
+*.csproj
+*.sln
+*.user
+*.suo
 
-# Ignore meta files except in the Scripts folder
-/Cat/Assets/**/*.meta
-!/Cat/Assets/Scripts/**/*.meta
+# macOS, Windows, Linux 시스템 파일
+.DS_Store
+Thumbs.db
 
-# Ignore generated project files and other build artifacts
-/Cat/Library/
-/Cat/Temp/
-/Cat/Obj/
-/Cat/Build/
-/Cat/Builds/
-/Cat/Logs/
+# Crash reports
+sysinfo.txt
+
+# Unity 생성 메타파일을 추적 (이미 대부분 필요)
+*.pidb
+*.booproj
+*.svd
+
+# Git이 추적할 폴더들 예외 처리
+!Assets/
+!Assets/**
+!Packages/
+!ProjectSettings/
+!UserSettings/
