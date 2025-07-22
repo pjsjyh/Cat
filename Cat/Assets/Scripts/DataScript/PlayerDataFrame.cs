@@ -16,9 +16,9 @@ public class PlayerDataFrame : MonoBehaviour
         {
             playerPersonalData = new PlayerPersonalData
             {
-                playerName = "newName222",
-                playerCoin = 0,
-                playerCash = 0
+                PlayerName = "newName222",
+                PlayerCoin = 0,
+                PlayerCash = 0
             };
 
             roomData = new PlayerRoomData(); // 필요하면 내부 초기화 추가
@@ -28,19 +28,61 @@ public class PlayerDataFrame : MonoBehaviour
     [System.Serializable]
     public class PlayerPersonalData
     {
-        public string playerName;
-        public int playerCoin;
-        public int playerCash;
+        private string _playerName;
+        private int _playerCoin;
+        private int _playerCash;
+
+        public event System.Action<string> OnNameChanged; 
+        public event System.Action<int> OnCoinChanged;
+        public event System.Action<int> OnCashChanged;
+        public string PlayerName
+        {
+            get => _playerName;
+            set
+            {
+                if (_playerName != value)
+                {
+                    _playerName = value;
+                    OnNameChanged?.Invoke(value);
+                }
+            }
+        }
+        public int PlayerCoin
+        {
+            get => _playerCoin;
+            set
+            {
+                if (_playerCoin != value)
+                {
+                    _playerCoin = value;
+                    OnCoinChanged?.Invoke(value);
+                }
+            }
+        }
+
+        public int PlayerCash
+        {
+            get => _playerCash;
+            set
+            {
+                if (_playerCash != value)
+                {
+                    _playerCash = value;
+                    OnCashChanged?.Invoke(value);
+                }
+            }
+        }
     }
     [System.Serializable]
     public class PlayerRoomData
     {
-        List<Furniture> furnitureList = new List<Furniture>();
+        public List<FurnitureSaveData> furnitureList = new List<FurnitureSaveData>();
     }
 
     [System.Serializable]
     public class PlayerCatData
     {
-        List<Cat> catDataList = new List<Cat>();
+        public List<CatSaveData> catDataList = new List<CatSaveData>();
+        
     }
 }
