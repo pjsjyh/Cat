@@ -11,7 +11,7 @@ public class FurnitureController : MonoBehaviour
 
         if (furnitureData == null)
         {
-            Debug.LogWarning($"고양이 데이터를 찾을 수 없습니다: {data.id}");
+            Debug.LogWarning($"가구 데이터를 찾을 수 없습니다: {data.id}");
             return;
         }
 
