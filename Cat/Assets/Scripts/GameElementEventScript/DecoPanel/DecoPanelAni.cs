@@ -13,8 +13,9 @@ public class DecoPanelAni : MonoBehaviour
         else
         {
             getModal.SetActive(true);
+            getModal.transform.GetChild(0).gameObject.SetActive(false);
             getModal.GetComponent<Animator>().SetTrigger("OpenModal");
-
         }
     }
+  
 }
