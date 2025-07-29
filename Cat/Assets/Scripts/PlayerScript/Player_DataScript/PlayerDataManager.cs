@@ -37,7 +37,7 @@ public class PlayerDataManager : MonoBehaviour
             playerData.catData.catDataList.Add(new CatSaveData
             {
                 id = "WhiteCat",
-                position = Vector3.zero,
+                position = new Vector3(600f, 600f, 0),
                 isPlaced = false
             });
         }
@@ -46,7 +46,7 @@ public class PlayerDataManager : MonoBehaviour
             playerData.roomData.furnitureList.Add(new FurnitureSaveData
             {
                 id = "CatTower",
-                position = Vector3.zero,
+                position = new Vector3(600f,600f,0),
                 isPlaced = false
             });
         }
