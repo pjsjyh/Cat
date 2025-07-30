@@ -58,20 +58,40 @@ public class FurnitureDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandl
 
     public void SettingOn()
     {
+        //가구 설치 ok
         moveBox.SetActive(false);
         isEditoreMode = false;
-
+        Debug.Log(furniture.furnitureId+"");
         FurnitureManager.Instance.AddFurniture(furniture.furnitureId, this.gameObject);
         GameObject obj = FurnitureInfo.Instance.FindFurnitureBox(furniture.furnitureId);
         obj.GetComponent<FurnitureBoxItem>().CheckIsPlaced(furniture.furnitureId);
+
+        FurnitureSettingOnData();
     }
     public void SettingNo()
     {
-        Destroy(this);
+        Destroy(this.gameObject);
     }
 
+    public void FurnitureSettingOnData()
+    {
+        //가구 설치 후 데이터 셋팅
+        furniture.installPosition = this.transform.position;
+        furniture.isPlaced = true;
+
+    }
+    public void FurnitureSettingDeleteData()
+    {
+        //가구 설치 삭제 후 데이터 셋팅
+        furniture.isPlaced = false;
+
+    }
     public void SettingFurnitureData(Furniture getData)
     {
         furniture = getData;
+    }
+    public Furniture ReturnFurnitureData()
+    {
+        return furniture;
     }
 }

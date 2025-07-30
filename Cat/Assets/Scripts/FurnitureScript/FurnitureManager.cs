@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-
+using System.Linq;
 public class FurnitureManager : MonoBehaviour
 {
     //처음 사용자 가구 셋팅 매니저
@@ -8,6 +8,7 @@ public class FurnitureManager : MonoBehaviour
     public Transform furnitureParent; // 가구가 추가 될 부모
 
     private Dictionary<string, GameObject> placedFurniture = new();
+    private Dictionary<string, FurnitureSaveData> furnitureSaveData = new();
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -30,16 +31,19 @@ public class FurnitureManager : MonoBehaviour
         foreach (var furnitureSaveData in furnitureList)
         {
             Furniture furnitureData = Resources.Load<Furniture>($"Data/Furniture/{furnitureSaveData.id}");
-            if (furnitureData.isPlaced)
+            furnitureData.isPlaced = furnitureSaveData.isPlaced;
+            furnitureData.installPosition = furnitureSaveData.position;
+            if (furnitureSaveData.isPlaced)
             {
+                Debug.Log(furnitureData.furnitureId);
+
                 GameObject furnitureObj = Instantiate(furnitureData.FurniturePrefab, furnitureSaveData.position, Quaternion.identity, furnitureParent);
                 furnitureObj.transform.SetParent(furnitureParent.transform, false);
 
+                furnitureObj.GetComponent<FurnitureDragHandler>().SettingFurnitureData(furnitureData);
                 placedFurniture[furnitureSaveData.id] = furnitureObj;
             }
            
-            //FurnitureController controller = furnitureObj.GetComponent<FurnitureController>();
-            //controller.Init(furnitureSaveData);
         }
     }
     public void AddFurniture(string getId, GameObject getObj)
@@ -63,5 +67,23 @@ public class FurnitureManager : MonoBehaviour
             return placedFurniture[getId];
         }
         return null;
+    }
+    public void DataUpdateFurniture()
+    {
+        //가구 꾸미기 종료 후 데이터 저장
+        foreach (var furniture in placedFurniture)
+        {
+            Furniture fData = furniture.Value.GetComponent<FurnitureDragHandler>().ReturnFurnitureData();
+
+            FurnitureSaveData saveData = new FurnitureSaveData
+            {
+                id = fData.furnitureId,
+                position = fData.installPosition,
+                isPlaced = fData.isPlaced
+            };
+
+            furnitureSaveData[fData.furnitureId] = saveData;
+        }
+        PlayerDataManager.Instance.playerData.roomData.furnitureList = furnitureSaveData.Values.ToList();
     }
 }
