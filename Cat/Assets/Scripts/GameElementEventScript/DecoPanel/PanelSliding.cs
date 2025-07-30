@@ -8,7 +8,12 @@ public class PanelSliding : MonoBehaviour
 
     public bool isOn = true;
     private float slideAmount = 0f;
+    private Vector2 originalPosition;
 
+    private void OnEnable()
+    {
+        originalPosition = container.anchoredPosition; // 활성화 시 최초 위치 저장
+    }
     public void Sliding()
     {
         if (isOn)
@@ -32,6 +37,11 @@ public class PanelSliding : MonoBehaviour
     {
         //container.anchoredPosition = Vector2.zero; // 다시 위로
         container.anchoredPosition = new Vector2(0, container.anchoredPosition.y + slideAmount+200f);
+        isOn = true;
+    }
+    public void OnDisable()
+    {
+        container.anchoredPosition = originalPosition;
         isOn = true;
     }
 

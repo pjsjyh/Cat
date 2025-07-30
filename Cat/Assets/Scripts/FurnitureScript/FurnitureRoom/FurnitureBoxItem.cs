@@ -13,8 +13,8 @@ public class FurnitureBoxItem : MonoBehaviour
     
     private void Awake()
     {
-        furnitureParent = transform.parent.GetComponent<FurnitureInfo>().furnitureParent;
-        furnitureSliding = transform.parent.GetComponent<FurnitureInfo>().furnitureSliding;
+        furnitureParent = FurnitureInfo.Instance.furnitureParent;
+        furnitureSliding = FurnitureInfo.Instance.furnitureSliding;
         
     }
     public void CheckIsPlaced(string id)

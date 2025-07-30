@@ -20,13 +20,20 @@ public class FurnitureInfo : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject); // 씬이 바뀌어도 유지되게
-
     }
 
     public void AddFurnitureBoxList(string getId, GameObject boxObj)
     {
         //boxlist에 가구 저장.
         allBoxes[getId] = boxObj;
+    }
+    public bool FindFurnitureBoxInList(string getId)
+    {
+        if (allBoxes.ContainsKey(getId))
+        {
+            return true;
+        }
+        return false;
     }
     public GameObject FindFurnitureBox(string getId)
     {

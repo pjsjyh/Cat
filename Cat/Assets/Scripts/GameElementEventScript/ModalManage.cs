@@ -7,6 +7,7 @@ public class ModalManage : MonoBehaviour
     public GameObject getModal;
     private bool handleCheck = true;
     public GameObject modalHandle;
+
     public void CloseModal()
     {
         getModal.SetActive(false);
@@ -21,11 +22,17 @@ public class ModalManage : MonoBehaviour
         {
             modalHandle.SetActive(true);
             handleCheck = false;
+
         }
         else
         {
             modalHandle.SetActive(false);
             handleCheck = true;
         }
+    }
+    public void HanelTrue()
+    {
+
+        handleCheck = true;
     }
 }
