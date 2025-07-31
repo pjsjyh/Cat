@@ -10,6 +10,7 @@ public class DecoPanelAni : MonoBehaviour
     {
         if (getModal.activeSelf)
         {
+            FurnitureManager.Instance.SetFurnitureEditorMode(false);
             if (handleObj != null)
             {
                 if (handleObj.GetComponent<PanelSliding>().isOn)
@@ -22,6 +23,7 @@ public class DecoPanelAni : MonoBehaviour
         }
         else
         {
+            FurnitureManager.Instance.SetFurnitureEditorMode(true);
             getModal.SetActive(true);
             getModal.transform.GetChild(0).gameObject.SetActive(false);
             getModal.GetComponent<Animator>().SetTrigger("OpenModal");

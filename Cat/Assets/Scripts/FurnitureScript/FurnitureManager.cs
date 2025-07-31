@@ -9,6 +9,8 @@ public class FurnitureManager : MonoBehaviour
 
     private Dictionary<string, GameObject> placedFurniture = new();
     private Dictionary<string, FurnitureSaveData> furnitureSaveData = new();
+
+    private bool furnitureEditorModeOn = false;
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -68,6 +70,11 @@ public class FurnitureManager : MonoBehaviour
         }
         return null;
     }
+    public void RemoveFurnitureInPlace(string getId)
+    {
+        placedFurniture.Remove(getId);
+        furnitureSaveData.Remove(getId);
+    }
     public void DataUpdateFurniture()
     {
         //가구 꾸미기 종료 후 데이터 저장
@@ -85,5 +92,13 @@ public class FurnitureManager : MonoBehaviour
             furnitureSaveData[fData.furnitureId] = saveData;
         }
         PlayerDataManager.Instance.playerData.roomData.furnitureList = furnitureSaveData.Values.ToList();
+    }
+    public bool isFurnitureEditorModeOn()
+    {
+        return furnitureEditorModeOn;
+    }
+    public void SetFurnitureEditorMode(bool getMode)
+    {
+        furnitureEditorModeOn = getMode;
     }
 }

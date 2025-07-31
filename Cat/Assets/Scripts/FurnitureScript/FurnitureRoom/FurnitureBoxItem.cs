@@ -25,6 +25,10 @@ public class FurnitureBoxItem : MonoBehaviour
             furnitureCheckBtn.SetActive(true);
         }
     }
+    public void RemoveFurnitureCheck()
+    {
+        furnitureCheckBtn.SetActive(false);
+    }
     public void SettingData(Furniture getData)
     {
         //box의 가구 값 셋팅
@@ -49,7 +53,7 @@ public class FurnitureBoxItem : MonoBehaviour
             GameObject furnitureObj = Instantiate(furniturePrefab, new Vector3(0, 0, 0), Quaternion.identity);
             furnitureObj.transform.SetParent(furnitureParent.transform, false);
             furnitureObj.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-
+            furnitureObj.GetComponent<FurnitureDragHandler>().StartSetting();
             furnitureObj.GetComponent<FurnitureDragHandler>().SettingFurnitureData(furnitureData);
             
         }
