@@ -8,7 +8,7 @@ public class FurnitureDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandl
     private Canvas canvas; //가구 그려진 캔버스
     public RectTransform canvasRect; //가구 그려질 캔버스 사이즈
 
-    private bool isEditoreMode = true;
+    private bool isEditoreMode = false;
     [SerializeField]
     private GameObject moveBox; //외곽선 박스 
 
@@ -32,7 +32,8 @@ public class FurnitureDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandl
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (!isEditoreMode) return;
+        if (!isEditoreMode || !FurnitureManager.Instance.isFurnitureEditorModeOn()) return;
+
         // 캔버스 스케일을 고려하여 위치 이동
         Vector2 newPos = rectTransform.anchoredPosition + eventData.delta / canvas.scaleFactor;
 
@@ -70,6 +71,9 @@ public class FurnitureDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandl
     }
     public void SettingNo()
     {
+        GameObject obj = FurnitureInfo.Instance.FindFurnitureBox(furniture.furnitureId);
+        obj.GetComponent<FurnitureBoxItem>().RemoveFurnitureCheck();
+        FurnitureManager.Instance.RemoveFurnitureInPlace(furniture.furnitureId);
         Destroy(this.gameObject);
     }
 
