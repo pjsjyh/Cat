@@ -1,70 +1,66 @@
 using UnityEngine;
 using System.Collections.Generic;
-// 8. 간단한 오브젝트 풀
+
 public class RatPool : MonoBehaviour
 {
-    public static RatPool Instance;
-
     [Header("Pool Settings")]
-    [SerializeField] private GameObject normalRatPrefab;
-    [SerializeField] private GameObject bombRatPrefab;
+    [SerializeField] private GameObject ratPrefab;
     [SerializeField] private int poolSize = 10;
 
-    private Queue<GameObject> normalRatPool = new Queue<GameObject>();
-    private Queue<GameObject> bombRatPool = new Queue<GameObject>();
+    private Queue<RatController> ratPool = new Queue<RatController>();
+    private List<RatController> activeRats = new List<RatController>();
 
     private void Awake()
     {
-        Instance = this;
         InitializePool();
     }
 
     private void InitializePool()
     {
-        // 일반쥐 풀 초기화
         for (int i = 0; i < poolSize; i++)
         {
-            GameObject rat = Instantiate(normalRatPrefab);
-            rat.SetActive(false);
-            normalRatPool.Enqueue(rat);
-        }
-
-        // 폭탄쥐 풀 초기화
-        for (int i = 0; i < poolSize; i++)
-        {
-            GameObject rat = Instantiate(bombRatPrefab);
-            rat.SetActive(false);
-            bombRatPool.Enqueue(rat);
+            GameObject ratObj = Instantiate(ratPrefab, transform);
+            RatController rat = ratObj.GetComponent<RatController>();
+            ratObj.SetActive(false);
+            ratPool.Enqueue(rat);
         }
     }
 
-    public GameObject GetRat(RatType ratType)
+    public RatController GetRat()
     {
-        Queue<GameObject> targetPool = ratType == RatType.Normal ? normalRatPool : bombRatPool;
+        RatController rat;
 
-        if (targetPool.Count > 0)
+        if (ratPool.Count > 0)
         {
-            GameObject rat = targetPool.Dequeue();
-            rat.SetActive(true);
-            return rat;
+            rat = ratPool.Dequeue();
+        }
+        else
+        {
+            GameObject newRatObj = Instantiate(ratPrefab, transform);
+            rat = newRatObj.GetComponent<RatController>();
         }
 
-        // 풀이 비어있으면 새로 생성
-        GameObject prefab = ratType == RatType.Normal ? normalRatPrefab : bombRatPrefab;
-        return Instantiate(prefab);
+        rat.gameObject.SetActive(true);
+        activeRats.Add(rat);
+        return rat;
     }
 
-    public void ReturnRat(BaseRat rat)
+    public void ReturnRat(RatController rat)
     {
-        rat.gameObject.SetActive(false);
-
-        if (rat is NormalRat)
+        if (activeRats.Contains(rat))
         {
-            normalRatPool.Enqueue(rat.gameObject);
+            activeRats.Remove(rat);
+            rat.gameObject.SetActive(false);
+            ratPool.Enqueue(rat);
         }
-        else if (rat is BombRat)
+    }
+
+    // 모든 활성 쥐를 풀로 반환
+    public void ReturnAllRats()
+    {
+        for (int i = activeRats.Count - 1; i >= 0; i--)
         {
-            bombRatPool.Enqueue(rat.gameObject);
+            ReturnRat(activeRats[i]);
         }
     }
 }
