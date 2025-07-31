@@ -1,46 +1,88 @@
 using UnityEngine;
+using System.Collections;
 
-// 7. 쥐 스포너
 public class RatSpawner : MonoBehaviour
 {
     [Header("Spawn Settings")]
-    [SerializeField] private Transform[] spawnPoints;
-    [SerializeField] private RatData normalRatData;
-    [SerializeField] private RatData bombRatData;
+    [SerializeField] private Transform[] holePositions;
+    [SerializeField] private RatData[] ratDataArray;
     [SerializeField] private float spawnInterval = 1.5f;
 
     [Header("Spawn Probability")]
     [Range(0f, 1f)]
-    [SerializeField] private float bombRatProbability = 0.2f; // 20% 확률로 폭탄쥐
+    [SerializeField] private float bombRatProbability = 0.2f;
 
-    private void Start()
+    private RatGameManager gameManager;
+    private bool isSpawning = false;
+    private Coroutine spawnCoroutine;
+
+    public void Initialize(RatGameManager manager)
     {
-        StartCoroutine(SpawnRats());
+        gameManager = manager;
     }
 
-    private System.Collections.IEnumerator SpawnRats()
+    public void StartSpawning()
     {
-        while (GameManager.Instance.IsGamePlaying)
+        isSpawning = true;
+        if (spawnCoroutine != null)
         {
+            StopCoroutine(spawnCoroutine);
+        }
+        spawnCoroutine = StartCoroutine(SpawnRoutine());
+    }
+
+    public void StopSpawning()
+    {
+        isSpawning = false;
+        if (spawnCoroutine != null)
+        {
+            StopCoroutine(spawnCoroutine);
+        }
+    }
+
+    private IEnumerator SpawnRoutine()
+    {
+        while (isSpawning && (gameManager == null || gameManager.IsGamePlaying))
+        {
+            if (gameManager != null)
+            {
+                yield return new WaitWhile(() => gameManager.IsPaused);
+            }
+
             yield return new WaitForSeconds(spawnInterval);
-            SpawnRandomRat();
+
+            if ((gameManager == null || (!gameManager.IsPaused && gameManager.IsGamePlaying)) && isSpawning)
+            {
+                SpawnRandomRat();
+            }
         }
     }
 
     private void SpawnRandomRat()
     {
-        // 랜덤 위치 선택
-        Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
+        if (holePositions.Length == 0 || ratDataArray.Length == 0) return;
 
-        // 쥐 타입 결정
-        RatData selectedRatData = Random.value < bombRatProbability ? bombRatData : normalRatData;
+        Transform selectedHole = holePositions[Random.Range(0, holePositions.Length)];
 
-        // 쥐 생성
-        GameObject ratObj = RatPool.Instance.GetRat(selectedRatData.ratType);
-        ratObj.transform.position = spawnPoint.position;
+        RatData selectedRatData;
+        if (Random.value < bombRatProbability)
+        {
+            selectedRatData = System.Array.Find(ratDataArray, data => data.ratType == RatType.Bomb);
+            if (selectedRatData == null) selectedRatData = ratDataArray[0];
+        }
+        else
+        {
+            selectedRatData = System.Array.Find(ratDataArray, data => data.ratType == RatType.Normal);
+            if (selectedRatData == null) selectedRatData = ratDataArray[0];
+        }
 
-        // 쥐 초기화
-        BaseRat rat = ratObj.GetComponent<BaseRat>();
-        // rat에 ratData 할당하는 로직 추가 필요
+        RatPool ratPool = FindObjectOfType<RatPool>();
+        if (ratPool != null)
+        {
+            RatController rat = ratPool.GetRat();
+            rat.transform.position = selectedHole.position;
+            rat.Initialize(gameManager);
+            rat.SetupRat(selectedRatData);
+        }
     }
 }
