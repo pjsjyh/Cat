@@ -16,4 +16,8 @@ public class RatData : ScriptableObject
     public Sprite ratSprite;
     public AudioClip hitSound;
     public GameObject hitEffect;
+
+    [Header("Special Effects (폭탄쥐용)")]
+    public int scorePenalty = 0;
+    public float timePenalty = 0f;
 }
