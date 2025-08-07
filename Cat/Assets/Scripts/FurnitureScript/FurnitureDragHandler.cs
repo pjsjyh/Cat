@@ -45,7 +45,14 @@ public class FurnitureDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandl
         float maxX = canvasRect.rect.width / 2 - halfWidth;
         float minY = -canvasRect.rect.height / 2 + halfHeight;
         float maxY = canvasRect.rect.height / 2 - halfHeight;
-
+        if(furniture.furnitureType == FurnitureType.Floor)
+        {
+            maxY = canvasRect.rect.height / 2 + halfHeight - 50f;
+        }
+        else if (furniture.furnitureType == FurnitureType.Wall)
+        {
+            minY = -canvasRect.rect.height / 2 - halfHeight+50f;
+        }
         newPos.x = Mathf.Clamp(newPos.x, minX, maxX);
         newPos.y = Mathf.Clamp(newPos.y, minY, maxY);
 
