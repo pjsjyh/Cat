@@ -25,6 +25,7 @@ public class FurnitureRoomListSetting : MonoBehaviour
             Furniture matched = allFurnitures.FirstOrDefault(f => f.furnitureId == furniture.id);
             GameObject box;
             
+            //이미 리스트에 있는 box인지
             if (FurnitureInfo.Instance.FindFurnitureBoxInList(matched.furnitureId))
             {
                 box = FurnitureInfo.Instance.FindFurnitureBox(matched.furnitureId);
