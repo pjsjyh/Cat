@@ -81,7 +81,8 @@ public class RatSpawner : MonoBehaviour
         {
             RatController rat = ratPool.GetRat();
             rat.transform.position = selectedHole.position;
-            rat.Initialize(gameManager);
+            rat.transform.parent = selectedHole;
+            // rat.Initialize(gameManager);
             rat.SetupRat(selectedRatData);
         }
     }

@@ -90,8 +90,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ratSpriteRenderer: {fileID: 0}
-  ratTransform: {fileID: 0}
-  ratCollider: {fileID: 0}
+  ratTransform: {fileID: 4204483541679538578}
+  ratCollider: {fileID: 6567303362254594891}
   audioSource: {fileID: 0}
   hideY: -1
   showY: 0
