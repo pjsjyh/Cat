@@ -12,9 +12,10 @@ public class Cat : ScriptableObject
 
     public Vector3 catCurrentPosition; //고양이 위치
     public bool isPlaced = false; //고양이 배치 유무
-    public float installLocation; //고양이 설치된 위치 기본 -1
+    public int installLocation; //고양이 설치된 위치 기본 -1
 
     public Sprite CatThumbnail; //고양이 썸네일
+    public GameObject catPrefab; //고양이 프리팹
 }
 
 [System.Serializable]
@@ -24,6 +25,6 @@ public class CatSaveData
     public Vector3 position;        // 고양이 위치
     public bool isPlaced;           // 배치 여부
 
-    public float installLocation;
+    public int installLocation=0;
     public string catName;
 }

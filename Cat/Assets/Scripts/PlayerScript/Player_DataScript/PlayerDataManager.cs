@@ -50,13 +50,21 @@ public class PlayerDataManager : MonoBehaviour
                 isPlaced = false
             });
         }
-
+        Debug.Log(playerData.playerPersonalData.PlayerName);
         StartCoroutine(LoadScene());
     }
     //종료시 데이터 자동 저장
     private void OnApplicationQuit()
     {
         DataManager.SaveData(playerData);
+    }
+    // 앱이 백그라운드로 갈 때 저장
+    private void OnApplicationPause(bool pauseStatus)
+    {
+        if (pauseStatus)
+        {
+            DataManager.SaveData(playerData);
+        }
     }
     // title -> loading -> 데이터 셋팅 -> main
     private IEnumerator LoadScene()
@@ -78,5 +86,13 @@ public class PlayerDataManager : MonoBehaviour
         }
 
     }
+    public void ChangeName(string getName)
+    {
+        playerData.playerPersonalData.PlayerName = getName;
 
+    }
+    public int ReturnPlayerPlace()
+    {
+        return playerData.playerPersonalData.PlayerPlace;
+    }
 }
