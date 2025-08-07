@@ -18,7 +18,8 @@ public class PlayerDataFrame : MonoBehaviour
             {
                 PlayerName = "newName222",
                 PlayerCoin = 0,
-                PlayerCash = 0
+                PlayerCash = 0,
+                PlayerPlace = 0, //플레이어 현재위치
             };
 
             roomData = new PlayerRoomData(); // 필요하면 내부 초기화 추가
@@ -28,13 +29,15 @@ public class PlayerDataFrame : MonoBehaviour
     [System.Serializable]
     public class PlayerPersonalData
     {
-        private string _playerName;
-        private int _playerCoin;
-        private int _playerCash;
+        [SerializeField]  private string _playerName;
+        [SerializeField]  private int _playerCoin;
+        [SerializeField] private int _playerCash;
+        [SerializeField] private int _playerPlace;
 
         public event System.Action<string> OnNameChanged; 
         public event System.Action<int> OnCoinChanged;
         public event System.Action<int> OnCashChanged;
+        public event System.Action<int> OnPlaceChanged;
         public string PlayerName
         {
             get => _playerName;
@@ -69,6 +72,18 @@ public class PlayerDataFrame : MonoBehaviour
                 {
                     _playerCash = value;
                     OnCashChanged?.Invoke(value);
+                }
+            }
+        }
+        public int PlayerPlace
+        {
+            get => _playerPlace;
+            set
+            {
+                if (_playerPlace != value)
+                {
+                    _playerPlace = value;
+                    OnPlaceChanged?.Invoke(value);
                 }
             }
         }
