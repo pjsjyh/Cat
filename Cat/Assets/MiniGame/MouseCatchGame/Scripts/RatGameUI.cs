@@ -14,6 +14,8 @@ public class RatGameUI : MonoBehaviour
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private TextMeshProUGUI finalScoreText;
 
+
+
     private void Start()
     {
         if (gameManager != null)
@@ -52,14 +54,15 @@ public class RatGameUI : MonoBehaviour
 
     private void UpdateScore(int score)
     {
+        Debug.Log(scoreText);
         if (scoreText != null)
-            scoreText.text = "점수: " + score;
+            scoreText.text = score.ToString("D3");
     }
 
     private void UpdateTime(float time)
     {
         if (timeText != null)
-            timeText.text = "시간: " + Mathf.Ceil(time);
+            timeText.text = Mathf.Ceil(time).ToString();
     }
 
     private void OnGamePaused()
@@ -80,7 +83,7 @@ public class RatGameUI : MonoBehaviour
         {
             gameOverPanel.SetActive(true);
             if (finalScoreText != null)
-                finalScoreText.text = "최종 점수: " + finalScore;
+                finalScoreText.text = "" + finalScore;
         }
     }
 
