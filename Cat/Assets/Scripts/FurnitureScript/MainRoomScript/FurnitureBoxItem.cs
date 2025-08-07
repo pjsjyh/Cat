@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class FurnitureBoxItem : MonoBehaviour
 {
-    //가구 list box 스크립트. 상자 클릭시(this) 방에 가구 생성
+    //가구 list box 스크립트.
+    //상자 클릭시(this) 방에 가구 생성
     private GameObject furnitureParent;
     private GameObject furnitureSliding;
 

@@ -16,7 +16,11 @@ MonoBehaviour:
   health: 10
   jump: 5
   happiness: 5
+  time: 0
   catName: "\uD770\uB0E5\uC774"
   catCurrentPosition: {x: 0, y: 0, z: 0}
-  isUse: 0
+  isPlaced: 0
   installLocation: -1
+  CatThumbnail: {fileID: 21300000, guid: 100c903931818e14ebd15c4a1da6aa23, type: 3}
+  catPrefab: {fileID: 6463610453706031910, guid: fb5131ba77b259342934658ce66084bf,
+    type: 3}

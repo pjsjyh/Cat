@@ -29,12 +29,14 @@ public class FurnitureManager : MonoBehaviour
     }
     public void SpawnFurnitures(List<FurnitureSaveData> furnitureList)
     {
+        Debug.Log("일단 들어옴");
         //게임 시작 시 가구 셋팅
         foreach (var furnitureSaveData in furnitureList)
         {
             Furniture furnitureData = Resources.Load<Furniture>($"Data/Furniture/{furnitureSaveData.id}");
             furnitureData.isPlaced = furnitureSaveData.isPlaced;
             furnitureData.installPosition = furnitureSaveData.position;
+            Debug.Log(furnitureData.isPlaced);
             if (furnitureSaveData.isPlaced)
             {
                 Debug.Log(furnitureData.furnitureId);
