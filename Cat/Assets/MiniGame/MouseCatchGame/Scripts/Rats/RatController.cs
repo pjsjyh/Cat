@@ -14,42 +14,15 @@ public class RatController : MonoBehaviour
     [SerializeField] private float showY = 0f;
     [SerializeField] private float animationSpeed = 2f;
 
-    private RatGameManager gameManager;
     private RatData currentRatData;
     private int currentHealth;
     private bool isActive = false;
     private bool isCaught = false;
     private Coroutine currentSequence;
 
-    public void Initialize(RatGameManager manager)
+    public void Initialize()
     {
-        gameManager = manager;
-
-        // 게임 매니저 이벤트 구독
-        if (gameManager != null)
-        {
-            gameManager.OnGamePaused += OnGamePaused;
-            gameManager.OnGameResumed += OnGameResumed;
-        }
-    }
-
-    private void OnDestroy()
-    {
-        if (gameManager != null)
-        {
-            gameManager.OnGamePaused -= OnGamePaused;
-            gameManager.OnGameResumed -= OnGameResumed;
-        }
-    }
-
-    private void OnGamePaused()
-    {
-        // 일시정지 처리
-    }
-
-    private void OnGameResumed()
-    {
-        // 재개 처리
+        Debug.Log("RatController initialized without GameManager");
     }
 
     public void SetupRat(RatData ratData)
@@ -78,22 +51,12 @@ public class RatController : MonoBehaviour
     {
         yield return StartCoroutine(MoveRatTo(showY));
 
-        // 게임 매니저가 있으면 일시정지 체크
-        if (gameManager != null)
-        {
-            yield return new WaitWhile(() => gameManager.IsPaused);
-        }
-
         isActive = true;
         ratCollider.enabled = true;
 
         float remainingTime = currentRatData.showDuration;
         while (remainingTime > 0)
         {
-            if (gameManager != null)
-            {
-                yield return new WaitWhile(() => gameManager.IsPaused);
-            }
             yield return null;
             remainingTime -= Time.deltaTime;
         }
@@ -114,11 +77,6 @@ public class RatController : MonoBehaviour
 
         while (elapsedTime < duration)
         {
-            if (gameManager != null)
-            {
-                yield return new WaitWhile(() => gameManager.IsPaused);
-            }
-
             elapsedTime += Time.deltaTime;
             float t = elapsedTime / duration;
             t = 1f - Mathf.Pow(1f - t, 3f);
@@ -132,18 +90,25 @@ public class RatController : MonoBehaviour
 
     private void OnMouseDown()
     {
-        // 게임 매니저 체크
-        if (gameManager != null && (gameManager.IsPaused || !gameManager.IsGamePlaying))
-            return;
+        Debug.Log("Mouse clicked on rat!");
+        OnRatHit();
 
         if (isActive && !isCaught)
         {
+            Debug.Log("Rat hit!");
+
             OnRatHit();
+        }
+        else
+        {
+            Debug.Log($"Rat not hittable - isActive: {isActive}, isCaught: {isCaught}");
         }
     }
 
     private void OnRatHit()
     {
+        Debug.Log($"Hit rat type: {currentRatData.ratType}");
+
         if (currentRatData.hitSound != null && audioSource != null)
         {
             audioSource.PlayOneShot(currentRatData.hitSound);
@@ -182,13 +147,15 @@ public class RatController : MonoBehaviour
             Instantiate(currentRatData.hitEffect, transform.position, Quaternion.identity);
         }
 
-        RatGameEvents.OnBombExploded?.Invoke(currentRatData.scorePenalty, currentRatData.timePenalty);
+        Debug.Log($"Bomb exploded! Penalty: {currentRatData.scorePenalty}");
         HideRat();
     }
 
     private void HandleHelmetRat()
     {
         currentHealth--;
+        Debug.Log($"Helmet rat hit! Health remaining: {currentHealth}");
+
         if (currentHealth <= 0)
         {
             CatchRat();
@@ -202,6 +169,8 @@ public class RatController : MonoBehaviour
     private void HandleShieldRat()
     {
         currentHealth--;
+        Debug.Log($"Shield rat hit! Health remaining: {currentHealth}");
+
         if (currentHealth <= 0)
         {
             CatchRat();
@@ -220,7 +189,7 @@ public class RatController : MonoBehaviour
         isActive = false;
         ratCollider.enabled = false;
 
-        RatGameEvents.OnRatCaught?.Invoke(currentRatData.ratType, currentRatData.scoreValue);
+        Debug.Log($"Rat caught! Type: {currentRatData.ratType}, Score: {currentRatData.scoreValue}");
 
         if (currentRatData.hitEffect != null)
         {
@@ -236,18 +205,8 @@ public class RatController : MonoBehaviour
 
         for (int i = 0; i < 3; i++)
         {
-            if (gameManager != null)
-            {
-                yield return new WaitWhile(() => gameManager.IsPaused);
-            }
-
             ratTransform.localPosition = originalPos + Vector3.right * 0.1f;
             yield return new WaitForSeconds(0.05f);
-
-            if (gameManager != null)
-            {
-                yield return new WaitWhile(() => gameManager.IsPaused);
-            }
 
             ratTransform.localPosition = originalPos + Vector3.left * 0.1f;
             yield return new WaitForSeconds(0.05f);
@@ -274,6 +233,11 @@ public class RatController : MonoBehaviour
         if (ratPool != null)
         {
             ratPool.ReturnRat(this);
+        }
+        else
+        {
+            // 풀이 없으면 그냥 비활성화
+            gameObject.SetActive(false);
         }
     }
 }
