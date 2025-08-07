@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c67ea96046e0d2b4a940e11642f0fdf2, type: 3}
+  m_Name: NormalRatData
+  m_EditorClassIdentifier: 
+  ratType: 0
+  ratSprite: {fileID: 568388316, guid: 77b8cc23b474fe44cbcb29e880bce8d1, type: 3}
+  health: 1
+  showDuration: 2
+  hitSound: {fileID: 0}
+  hitEffect: {fileID: 0}
+  scoreValue: 10
+  scorePenalty: -20
+  timePenalty: 5

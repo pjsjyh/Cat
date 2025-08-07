@@ -22,7 +22,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - mouse
   - 
   - 
   - 
@@ -42,6 +42,9 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: mouse hole
+    uniqueID: 1087868225
     locked: 0
   m_RenderingLayers:
   - Default

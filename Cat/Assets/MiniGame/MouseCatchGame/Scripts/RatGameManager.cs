@@ -35,6 +35,10 @@ public class RatGameManager : MonoBehaviour
         // 이벤트 구독
         RatGameEvents.OnRatCaught += HandleRatCaught;
         RatGameEvents.OnBombExploded += HandleBombExploded;
+
+
+        //게임시작
+        StartMiniGame();
     }
 
     private void OnDestroy()
