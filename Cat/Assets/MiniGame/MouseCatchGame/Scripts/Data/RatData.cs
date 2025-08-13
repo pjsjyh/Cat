@@ -5,6 +5,7 @@ public class RatData : ScriptableObject
 {
     public RatType ratType;
     public Sprite ratSprite;
+    public Sprite ratHitSprite;
     public int health = 1;
     public float showDuration = 2f;
     public AudioClip hitSound;
