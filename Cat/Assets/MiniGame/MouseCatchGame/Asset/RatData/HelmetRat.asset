@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c67ea96046e0d2b4a940e11642f0fdf2, type: 3}
-  m_Name: BombRatData
+  m_Name: HelmetRat
   m_EditorClassIdentifier: 
-  ratType: 1
-  ratSprite: {fileID: 1823625435, guid: 77b8cc23b474fe44cbcb29e880bce8d1, type: 3}
-  ratHitSprite: {fileID: -881750981, guid: 77b8cc23b474fe44cbcb29e880bce8d1, type: 3}
-  health: 1
+  ratType: 2
+  ratSprite: {fileID: 1287446199, guid: 77b8cc23b474fe44cbcb29e880bce8d1, type: 3}
+  ratHitSprite: {fileID: 1200655620, guid: 77b8cc23b474fe44cbcb29e880bce8d1, type: 3}
+  health: 3
   showDuration: 2
-  hitSound: {fileID: 8300000, guid: 894f667832f8a5447825d8ea9efb5687, type: 3}
+  hitSound: {fileID: 8300000, guid: 1cf0f7c66d538854293e8a16512d4108, type: 3}
   hitEffect: {fileID: 0}
-  scoreValue: 50
-  scorePenalty: -50
-  timePenalty: 10
+  scoreValue: 20
+  scorePenalty: -20
+  timePenalty: 5
