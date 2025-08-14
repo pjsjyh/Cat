@@ -6,7 +6,8 @@ public class Cat : ScriptableObject
     public string catId; //가지고 있는 고양이 번호
     public float health; // 고양이 체력
     public float jump; // 고양이 점프력
-    public float happiness; // 고양이 행운력
+    public float luck; // 고양이 행운력
+    public float coin; // 고양이 코인버프
     public float time; // 고양이 시간단축
     public string catName; //고양이 이름
 
