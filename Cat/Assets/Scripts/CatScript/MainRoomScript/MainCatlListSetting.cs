@@ -15,13 +15,17 @@ public class MainCatlListSetting : MonoBehaviour
 
     private void OnEnable()
     {
+        Debug.Log("!!!!");
         SettingCatListBox();
     }
     public void SettingCatListBox()
     {
         Cat[] allCat = Resources.LoadAll<Cat>("Data/Cat");
+        Debug.Log(allCat.Length);
+        Debug.Log(PlayerDataManager.Instance.playerData.catData.catDataList.Count);
         foreach (CatSaveData cat in PlayerDataManager.Instance.playerData.catData.catDataList)
         {
+            Debug.Log(cat.id);
             Cat matched = allCat.FirstOrDefault(f => f.catId == cat.id);
             GameObject box;
             //box list에 포함되는지 확인
@@ -47,7 +51,7 @@ public class MainCatlListSetting : MonoBehaviour
             }
             catch (System.Exception ex)
             {
-                Debug.LogError($"[가구 셋팅 에러] 예외 발생: {ex.GetType().Name} - {ex.Message}\n스택트레이스: {ex.StackTrace}");
+                Debug.LogError($"[고양이 셋팅 에러] 예외 발생: {ex.GetType().Name} - {ex.Message}\n스택트레이스: {ex.StackTrace}");
             }
         }
     }
