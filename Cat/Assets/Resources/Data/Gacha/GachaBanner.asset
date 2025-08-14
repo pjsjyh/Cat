@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 189a9cb4246aa1a45b41d67a4b664184, type: 3}
+  m_Name: GachaBanner
+  m_EditorClassIdentifier: 
+  pool: {fileID: 11400000, guid: 9e49b9cb25fdec740940d9dd8f257c9c, type: 2}
+  shardCostsByLevel: 03000000050000000a000000120000001e000000
+  shardDrops:
+  - rarity: 3
+    range: {x: 1, y: 2}
+  - rarity: 2
+    range: {x: 1, y: 3}
+  - rarity: 1
+    range: {x: 2, y: 4}
+  - rarity: 0
+    range: {x: 3, y: 5}
+  stages:
+  - stageId: LV1
+    minTotalRolls: 0
+    rates:
+    - rarity: 3
+      rate: 0.01
+    - rarity: 2
+      rate: 0.04
+    - rarity: 1
+      rate: 0.2
+    - rarity: 0
+      rate: 0.75
+  - stageId: LV2
+    minTotalRolls: 3
+    rates:
+    - rarity: 3
+      rate: 0.01
+    - rarity: 2
+      rate: 0.04
+    - rarity: 1
+      rate: 0.2
+    - rarity: 0
+      rate: 0.75
+  - stageId: LV3
+    minTotalRolls: 10
+    rates:
+    - rarity: 3
+      rate: 0.01
+    - rarity: 2
+      rate: 0.04
+    - rarity: 1
+      rate: 0.2
+    - rarity: 0
+      rate: 0.75
+  costPerRoll: 300
