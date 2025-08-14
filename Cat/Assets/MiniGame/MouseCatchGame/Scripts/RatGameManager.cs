@@ -136,6 +136,57 @@ public class RatGameManager : MonoBehaviour
         Debug.Log("쥐잡기 게임 재개");
     }
 
+    public void RestartMiniGame()
+    {
+        // // 현재 게임 종료 (정리 작업)
+        // EndMiniGame();
+
+        // // 잠시 대기 후 새 게임 시작 (코루틴 사용)
+        // StartCoroutine(RestartGameCoroutine());
+
+        // 현재 실행 중인 코루틴들 정지
+        if (gameTimerCoroutine != null)
+        {
+            StopCoroutine(gameTimerCoroutine);
+            gameTimerCoroutine = null;
+        }
+
+        // 게임 상태 초기화
+        IsGamePlaying = false;
+        IsPaused = false;
+
+        // timeScale 복원
+        Time.timeScale = originalTimeScale;
+
+        // 스포너 정지
+        if (ratSpawner != null)
+        {
+            ratSpawner.StopSpawning();
+        }
+
+        // 모든 쥐 회수
+        if (ratPool != null)
+        {
+            ratPool.ReturnAllRats();
+        }
+
+        // 잠시 대기 후 새 게임 시작
+        StartCoroutine(RestartDelay());
+    }
+    private IEnumerator RestartDelay()
+    {
+        yield return new WaitForSecondsRealtime(0.1f); // 0.1초 대기
+        StartMiniGame();
+    }
+
+    private IEnumerator RestartGameCoroutine()
+    {
+        // 한 프레임 대기 (EndMiniGame의 정리 작업이 완료되도록)
+        yield return null;
+
+        // 새 게임 시작
+        StartMiniGame();
+    }
     public void TogglePause()
     {
         if (IsPaused)
@@ -167,7 +218,7 @@ public class RatGameManager : MonoBehaviour
         EndMiniGame();
     }
 
-    private void HandleRatCaught(RatType ratType, int score)
+    public void HandleRatCaught(RatType ratType, int score)
     {
         CurrentScore += score;
         OnScoreChanged?.Invoke(CurrentScore);
@@ -180,6 +231,7 @@ public class RatGameManager : MonoBehaviour
         CurrentTime -= timePenalty;
 
         if (CurrentTime < 0) CurrentTime = 0;
+        if (CurrentScore < 0) CurrentScore = 0;
 
         OnScoreChanged?.Invoke(CurrentScore);
         OnTimeChanged?.Invoke(CurrentTime);
@@ -191,6 +243,9 @@ public class RatGameManager : MonoBehaviour
     public void AddScore(int score)
     {
         CurrentScore += score;
+        Debug.Log("score" + score);
+        if (CurrentScore < 0)
+            CurrentScore = 0;
         OnScoreChanged?.Invoke(CurrentScore);
     }
 
@@ -200,4 +255,6 @@ public class RatGameManager : MonoBehaviour
         if (CurrentTime < 0) CurrentTime = 0;
         OnTimeChanged?.Invoke(CurrentTime);
     }
+
+
 }
