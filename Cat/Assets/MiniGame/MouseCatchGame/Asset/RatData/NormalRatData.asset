@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ratType: 0
   ratSprite: {fileID: 568388316, guid: 77b8cc23b474fe44cbcb29e880bce8d1, type: 3}
+  ratHitSprite: {fileID: 1011239874, guid: 77b8cc23b474fe44cbcb29e880bce8d1, type: 3}
   health: 1
   showDuration: 2
-  hitSound: {fileID: 0}
+  hitSound: {fileID: 8300000, guid: 1cf0f7c66d538854293e8a16512d4108, type: 3}
   hitEffect: {fileID: 0}
   scoreValue: 10
   scorePenalty: -20

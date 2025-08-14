@@ -14,11 +14,14 @@ public class RatController : MonoBehaviour
     [SerializeField] private float showY = 0f;
     [SerializeField] private float animationSpeed = 2f;
 
+    [SerializeField] private RatGameManager gameManager;
     private RatData currentRatData;
     private int currentHealth;
+
     private bool isActive = false;
     private bool isCaught = false;
     private Coroutine currentSequence;
+
 
     public void Initialize()
     {
@@ -30,6 +33,7 @@ public class RatController : MonoBehaviour
         currentRatData = ratData;
         currentHealth = currentRatData.health;
         ratSpriteRenderer.sprite = currentRatData.ratSprite;
+        audioSource.clip = currentRatData.hitSound;
         isCaught = false;
         isActive = false;
 
@@ -109,8 +113,11 @@ public class RatController : MonoBehaviour
     {
         Debug.Log($"Hit rat type: {currentRatData.ratType}");
 
+        ratSpriteRenderer.sprite = currentRatData.ratHitSprite;
+
         if (currentRatData.hitSound != null && audioSource != null)
         {
+            Debug.Log("sound");
             audioSource.PlayOneShot(currentRatData.hitSound);
         }
 
@@ -141,7 +148,7 @@ public class RatController : MonoBehaviour
         isCaught = true;
         isActive = false;
         ratCollider.enabled = false;
-
+        RatGameEvents.OnBombExploded?.Invoke(currentRatData.scorePenalty, currentRatData.timePenalty); // 예: -10점, -5초
         if (currentRatData.hitEffect != null)
         {
             Instantiate(currentRatData.hitEffect, transform.position, Quaternion.identity);
@@ -188,9 +195,11 @@ public class RatController : MonoBehaviour
         isCaught = true;
         isActive = false;
         ratCollider.enabled = false;
-
+        // CurrentScore = CurrentScore + 10;
         Debug.Log($"Rat caught! Type: {currentRatData.ratType}, Score: {currentRatData.scoreValue}");
+        RatGameEvents.OnRatCaught?.Invoke(currentRatData.ratType, currentRatData.scoreValue);
 
+        // gameManager.HandleRatCaught(currentRatData.ratType, currentRatData.scoreValue);
         if (currentRatData.hitEffect != null)
         {
             Instantiate(currentRatData.hitEffect, transform.position, Quaternion.identity);
@@ -201,6 +210,8 @@ public class RatController : MonoBehaviour
 
     private IEnumerator HitEffect()
     {
+
+
         Vector3 originalPos = ratTransform.localPosition;
 
         for (int i = 0; i < 3; i++)

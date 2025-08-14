@@ -54,7 +54,7 @@ public class RatGameUI : MonoBehaviour
 
     private void UpdateScore(int score)
     {
-        Debug.Log(scoreText);
+        Debug.Log("update" + scoreText);
         if (scoreText != null)
             scoreText.text = score.ToString("D3");
     }
@@ -102,6 +102,23 @@ public class RatGameUI : MonoBehaviour
         if (gameManager != null)
         {
             gameManager.EndMiniGame();
+        }
+    }
+
+    public void RestartGame()
+    {
+        // 게임 오버 패널 숨기기
+        if (gameOverPanel != null)
+            gameOverPanel.SetActive(false);
+
+        // 일시정지 패널도 숨기기 (혹시 켜져있다면)
+        if (pausePanel != null)
+            pausePanel.SetActive(false);
+
+        // 게임 매니저에서 다시 시작
+        if (gameManager != null)
+        {
+            gameManager.RestartMiniGame();
         }
     }
 }
