@@ -28,8 +28,10 @@ public class CatManager : MonoBehaviour
     }
     public void SpawnCats(List<CatSaveData> catList)
     {
+        Debug.Log("들어옴");
         foreach (var catSaveData in catList)
         {
+            Debug.Log("고양이");
             Cat catData = Resources.Load<Cat>($"Data/Cat/{catSaveData.id}");
 
             catData.isPlaced = catSaveData.isPlaced;
@@ -70,25 +72,38 @@ public class CatManager : MonoBehaviour
     }
     public void RemoveCatInPlace(string getId)
     {
+
         placedCat.Remove(getId);
         catSaveData.Remove(getId);
     }
     public void DataUpdateCat()
     {
-        //가구 꾸미기 종료 후 데이터 저장
+        //고양이 꾸미기 종료 후 데이터 저장
+        var list = PlayerDataManager.Instance.playerData.catData.catDataList;
+
         foreach (var cat in placedCat)
         {
-            Cat cData = cat.Value.GetComponent<CatHandler>().ReturnCatData();
-
-            CatSaveData saveData = new CatSaveData
+            var cData = cat.Value.GetComponent<CatHandler>().ReturnCatData();
+            var save = new CatSaveData
             {
                 id = cData.catId,
                 position = cData.catCurrentPosition,
                 isPlaced = cData.isPlaced
             };
 
-            catSaveData[cData.catId] = saveData;
+            // 리스트에서 같은 id 찾기
+            var existing = list.Find(x => x.id == save.id);
+            if (existing != null)
+            {
+                existing.position = save.position;
+                existing.isPlaced = save.isPlaced;
+            }
+            else
+            {
+                list.Add(save);
+            }
         }
-        PlayerDataManager.Instance.playerData.catData.catDataList = catSaveData.Values.ToList();
+        Debug.Log("여기로 들어옴");
+        //PlayerDataManager.Instance.playerData.catData.catDataList = catSaveData.Values.ToList();
     }
 }

@@ -36,7 +36,7 @@ public class PanelSliding : MonoBehaviour
     public void SlideUp()
     {
         //container.anchoredPosition = Vector2.zero; // 다시 위로
-        container.anchoredPosition = new Vector2(0, container.anchoredPosition.y + slideAmount+200f);
+        container.anchoredPosition = new Vector2(0, container.anchoredPosition.y + slideAmount);
         isOn = true;
     }
     public void OnDisable()

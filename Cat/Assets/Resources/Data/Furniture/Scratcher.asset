@@ -13,7 +13,15 @@ MonoBehaviour:
   m_Name: Scratcher
   m_EditorClassIdentifier: 
   furnitureId: Scratcher
-  isUse: 0
+  isPlaced: 0
   installLocation: -1
   installPosition: {x: 0, y: 0, z: 0}
   isCatUse: 0
+  furnitureType: 0
+  FurnitureThumbnail: {fileID: 21300000, guid: 1327dbe19ca59e641b5c4cbbe29a4654, type: 3}
+  FurniturePrefab: {fileID: 4845998903337583496, guid: bf6302817a6841f4090407f624da273b,
+    type: 3}
+  rarity: 1
+  gachaEligible: 1
+  maxOwned: 5
+  nowOwned: 0
