@@ -10,6 +10,7 @@ public class MainCatSetting : MonoBehaviour
     {
         if (catData != null) {
             int nowPlayerPlaced = PlayerDataManager.Instance.ReturnPlayerPlace();
+
             if (catData.isPlaced)
             {
                 if(nowPlayerPlaced == catData.installLocation)
@@ -26,7 +27,24 @@ public class MainCatSetting : MonoBehaviour
             {
                 catSettingWord.text = "고양이를 현재방으로 이동하시겠습니까? \n  ";
             }
+            catData.installLocation = nowPlayerPlaced;
+
+            GameObject thisCat = CatManager.Instance.FindCat(catData.catId);
+            if (thisCat != null) {
+                thisCat.GetComponent<CatHandler>().CatRoom(nowPlayerPlaced);
+
+            }
         }
+    }
+    public void ReturnCat()
+    {
+        GameObject findCat = CatManager.Instance.FindCat(catData.catId);
+        findCat.GetComponent<CatHandler>().CatRoom(-1);
+        CatManager.Instance.RemoveCatInPlace(catData.catId);
+        GameObject findCatBox = CatInfo.Instance.FindCatBox(catData.catId);
+        findCatBox.GetComponent<MainCatBoxItem>().RemoveCatCheck();
+        Destroy(findCat);
+
     }
     public void SettingData(Cat getData)
     {
@@ -55,6 +73,8 @@ public class MainCatSetting : MonoBehaviour
             catObj.GetComponent<CatHandler>().SettingCatData(catData);
 
         }
+        GameObject findCatBox = CatInfo.Instance.FindCatBox(catData.catId);
+        findCatBox.GetComponent <MainCatBoxItem>().CheckIsPlaced(catData.catId);
         //furnitureSliding.GetComponent<PanelSliding>().SlideDown();
 
     }

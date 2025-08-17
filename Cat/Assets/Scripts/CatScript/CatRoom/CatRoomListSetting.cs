@@ -1,23 +1,48 @@
+ï»¿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CatRoomListSetting : MonoBehaviour
 {
-    //°í¾çÀÌ·ë °í¾çÀÌ ¸®½ºÆ® ¼ÂÆÃ
+    //ê³ ì–‘ì´ë£¸ ê³ ì–‘ì´ ë¦¬ìŠ¤íŠ¸ ì…‹íŒ…
     public GameObject parentObject;
     public GameObject catListBox;
+
+    private readonly Dictionary<string, GameObject> _catItemList = new();
+    private string _firstKey;
     private void Awake()
     {
     }
-    private void OnEnable()
-    {
-        SettingCatListBox();
-    }
+    private void OnEnable() => SettingCatListBox();
     public void SettingCatListBox()
     {
-        Cat[] allCats = Resources.LoadAll<Cat>("Data/Cat");
+        var allCats = Resources.LoadAll<Cat>("Data/Cat")
+        .OrderBy(c => c.catId) // ì›í•˜ëŠ” ì •ë ¬ ê¸°ì¤€
+        .ToList();
+        var seen = new HashSet<string>();
+        _firstKey = allCats.Count > 0 ? allCats[0].catId : null;
+
         foreach (Cat cat in allCats) {
-            GameObject box = Instantiate(catListBox, parentObject.transform);
+            var key = cat.catId;
+            seen.Add(key);
+
+            if (!_catItemList.TryGetValue(key, out var box) || box == null)
+            {
+                box = Instantiate(catListBox, parentObject.transform);
+                _catItemList[key] = box;          // â­ ë”•ì…”ë„ˆë¦¬ì— ë°˜ë“œì‹œ ë“±ë¡
+            }
+
+            box.GetComponent<CatRoomCatBoxItem>().SettingCatData(cat); // ë‚´ìš© ê°±ì‹ 
         }
-        
+
     }
+    public void SettingFirstData()
+    {
+        if(_catItemList.TryGetValue(_firstKey, out var box))
+        {
+            box.GetComponent<CatRoomCatBoxItem>().OnClickBox();
+        }
+    }
+    
 }

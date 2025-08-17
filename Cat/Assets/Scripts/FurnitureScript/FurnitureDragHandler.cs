@@ -14,20 +14,36 @@ public class FurnitureDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandl
 
     private Furniture furniture; //받은 가구 데이터
 
+    // ▼ 추가: 앞뒤 제어용
+    [SerializeField] private Transform zOrderParent;   // 가구들이 모인 부모(없으면 자기 parent)
+    [SerializeField] private bool autoDepthByY = true; // 드랍 시 Y기준 자동 정렬 여부
+    private int originalIndex;
+
+    [SerializeField]
+    DepthSorter sorter;
+
     private void Start()
     {
         rectTransform = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
         canvasRect = transform.parent.GetComponent<RectTransform>();
+        if (!zOrderParent) zOrderParent = transform.parent;
+        sorter = transform.parent.GetComponent<DepthSorter>();
+
     }
     public void StartSetting()
     {
-        moveBox.SetActive(true);
+        moveBox?.SetActive(true);
         isEditoreMode = true;
     }
     public void OnBeginDrag(PointerEventData eventData)
     {
-        
+        if (!isEditoreMode || !FurnitureManager.Instance.isFurnitureEditorModeOn()) return;
+
+        // 드래그 중엔 최상단으로 올려서 잡기 편하게
+        originalIndex = rectTransform.GetSiblingIndex();
+        rectTransform.SetAsLastSibling();
+        moveBox?.SetActive(true);
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -61,9 +77,19 @@ public class FurnitureDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandl
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        
+        if (!isEditoreMode || !FurnitureManager.Instance.isFurnitureEditorModeOn()) return;
+        sorter.SortNow();
+        //if (autoDepthByY) SortSiblingsByY((RectTransform)zOrderParent);
+        //else rectTransform.SetSiblingIndex(originalIndex);
     }
-
+    // Y가 낮을수록(화면 아래쪽) 앞으로 보이게 자동 정렬
+    public static void SortSiblingsByY(RectTransform parent)
+    {
+        var list = new System.Collections.Generic.List<RectTransform>();
+        foreach (Transform t in parent) list.Add((RectTransform)t);
+        list.Sort((a, b) => b.anchoredPosition.y.CompareTo(a.anchoredPosition.y)); // y작은게 앞
+        for (int i = 0; i < list.Count; i++) { list[i].SetSiblingIndex(i); Debug.Log(list[i].name); }
+    }
     public void SettingOn()
     {
         //가구 설치 ok

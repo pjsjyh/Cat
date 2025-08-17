@@ -47,7 +47,17 @@ public class PlayerDataManager : MonoBehaviour
             {
                 id = "CatTower",
                 position = new Vector3(600f,600f,0),
-                isPlaced = false
+                isPlaced = false,
+                installLocation = 0,
+                nowPeice = 0,
+            });
+            playerData.roomData.furnitureList.Add(new FurnitureSaveData
+            {
+                id = "Scratcher",
+                position = new Vector3(600f, 600f, 0),
+                isPlaced = false,
+                installLocation =0,
+                nowPeice =0,
             });
         }
         Debug.Log(playerData.playerPersonalData.PlayerName);
@@ -94,5 +104,13 @@ public class PlayerDataManager : MonoBehaviour
     public int ReturnPlayerPlace()
     {
         return playerData.playerPersonalData.PlayerPlace;
+    }
+    public int ReturnPlayerCash()
+    {
+        return playerData.playerPersonalData.PlayerCash;
+    }
+    public void SaveData()
+    {
+
     }
 }
