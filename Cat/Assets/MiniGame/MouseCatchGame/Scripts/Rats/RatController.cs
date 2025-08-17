@@ -22,10 +22,24 @@ public class RatController : MonoBehaviour
     private bool isCaught = false;
     private Coroutine currentSequence;
 
+    // RatSpawner 참조 추가
+    private RatSpawner ratSpawner;
+
+    private void Awake()
+    {
+        // RatSpawner 찾기 (한 번만 찾아서 캐싱)
+        ratSpawner = FindObjectOfType<RatSpawner>();
+    }
 
     public void Initialize()
     {
         Debug.Log("RatController initialized without GameManager");
+
+        // RatSpawner가 없다면 다시 찾기
+        if (ratSpawner == null)
+        {
+            ratSpawner = FindObjectOfType<RatSpawner>();
+        }
     }
 
     public void SetupRat(RatData ratData)
@@ -210,8 +224,6 @@ public class RatController : MonoBehaviour
 
     private IEnumerator HitEffect()
     {
-
-
         Vector3 originalPos = ratTransform.localPosition;
 
         for (int i = 0; i < 3; i++)
@@ -238,6 +250,13 @@ public class RatController : MonoBehaviour
     private IEnumerator HideSequence()
     {
         yield return StartCoroutine(MoveRatTo(hideY));
+
+        // 구멍을 비어있는 상태로 설정 (쥐가 완전히 사라진 후)
+        if (ratSpawner != null && transform.parent != null)
+        {
+            ratSpawner.SetHoleOccupancy(transform.parent, false);
+            Debug.Log($"Released hole: {transform.parent.name}");
+        }
 
         // 풀에 반환
         RatPool ratPool = FindObjectOfType<RatPool>();
