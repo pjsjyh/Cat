@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainRoom/MainRoomScene.unity
     guid: fb9b806a8042caf48a7a17b4c3033759
+  - enabled: 1
+    path: Assets/Scenes/TrickGame.unity
+    guid: 32e15869bfc5f2d40b40b0d46a3ef61c
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 154312520310d1043aaa832bcdc7d20d,
       type: 2}

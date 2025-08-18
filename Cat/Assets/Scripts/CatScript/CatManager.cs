@@ -10,6 +10,9 @@ public class CatManager : MonoBehaviour
 
     private Dictionary<string, GameObject> placedCat = new();
     private Dictionary<string, CatSaveData> catSaveData = new();
+
+    public Dictionary<string, Cat> allCatData = new(); //모든 고양이 데이터
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -28,10 +31,8 @@ public class CatManager : MonoBehaviour
     }
     public void SpawnCats(List<CatSaveData> catList)
     {
-        Debug.Log("들어옴");
         foreach (var catSaveData in catList)
         {
-            Debug.Log("고양이");
             Cat catData = Resources.Load<Cat>($"Data/Cat/{catSaveData.id}");
 
             catData.isPlaced = catSaveData.isPlaced;
@@ -44,7 +45,10 @@ public class CatManager : MonoBehaviour
                 catObj.GetComponent<CatHandler>().SettingCatData(catData);
                 placedCat[catSaveData.id] = catObj;
             }
-           
+
+            allCatData[catSaveData.id] = catData;
+
+
         }
     }
     public void AddCat(string getId, GameObject getObj)
@@ -103,7 +107,10 @@ public class CatManager : MonoBehaviour
                 list.Add(save);
             }
         }
-        Debug.Log("여기로 들어옴");
         //PlayerDataManager.Instance.playerData.catData.catDataList = catSaveData.Values.ToList();
+    }
+    public List<Cat> ReturnCatList()
+    {
+        return allCatData.Values.ToList();
     }
 }
