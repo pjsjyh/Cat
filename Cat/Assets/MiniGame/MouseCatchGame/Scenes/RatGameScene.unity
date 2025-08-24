@@ -1563,7 +1563,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 5, y: -220}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 298.49, y: 51.17}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &471936325
 MonoBehaviour:
@@ -1836,7 +1836,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 117c31dff3515e74b805301d0d74c244, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameTime: 99
+  gameTime: 60
   initialScore: 0
   ratSpawner: {fileID: 579459022}
   ratPool: {fileID: 579459021}
@@ -2988,8 +2988,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -513}
-  m_SizeDelta: {x: 500, y: 50}
+  m_AnchoredPosition: {x: 0, y: -502.79218}
+  m_SizeDelta: {x: 683.7405, y: 60.2078}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &758655784
 MonoBehaviour:
