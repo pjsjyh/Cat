@@ -146,5 +146,10 @@ public class FurnitureManager : MonoBehaviour
     {
         furnitureEditorModeOn = getMode;
     }
+    public List<Furniture> ReturnAllFurnitureData()
+    {
+        List<Furniture> furnitureList = new List<Furniture>(allFurnitureData.Values);
+        return furnitureList;
+    }
 
 }

@@ -80,7 +80,6 @@ public class TrickGameUIManager : MonoBehaviour
 
             // 리스트 상 참조도 교환(다음 스왑에서 자연스럽게)
             (_cups[a], _cups[b]) = (_cups[b], _cups[a]);
-            Debug.Log("스왑");
         }
 
         if (disableLayoutDuringShuffle && _layout)
@@ -89,7 +88,7 @@ public class TrickGameUIManager : MonoBehaviour
             //LayoutRebuilder.ForceRebuildLayoutImmediate(cupsRoot);
         }
     }
-
+  
     static Sequence SwapUI(RectTransform a, RectTransform b, float dur, float arcPx)
     {
         var a0 = a.anchoredPosition;
