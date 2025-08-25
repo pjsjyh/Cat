@@ -19,8 +19,3 @@ public class GameCatalog : ScriptableObject
     public string sceneName;
 }
 
-[CreateAssetMenu(menuName = "Game/GameList", fileName = "GameList")]
-public class GameList : ScriptableObject
-{
-    public List<GameCatalog> gameList = new List<GameCatalog>();
-}

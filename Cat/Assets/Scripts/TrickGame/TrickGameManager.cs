@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 public class TrickGameManager : MonoBehaviour
 {
     //컵 섞기 게임 매니저
@@ -19,6 +20,10 @@ public class TrickGameManager : MonoBehaviour
     public float cupSettingTimeout = 1f;
     [Header("State")]
     public int currentLevelIndex = 0;        // levelSet에서 쓸 인덱스
+
+    [Header("GamePanel")]
+    public GameObject GameFinishPanel;
+
 
     RectTransform ballCup;                  // 공이 숨어있는 컵(참조)
     bool inputEnabled;
@@ -39,9 +44,7 @@ public class TrickGameManager : MonoBehaviour
     public void StartGame()
     {
         //start 버튼 누르면 시작
-        Debug.Log("!!");
         StartCurrentLevel();
-        startBtn.gameObject.SetActive(false);
     }
     void SetupClickHandlers()
     {
@@ -87,8 +90,6 @@ public class TrickGameManager : MonoBehaviour
 
     private IEnumerator CoRunLevel(TrickGame lv)
     {
-        Debug.Log("!!");
-
         // 1) 레벨 값 주입
         shuffler.SetCupCount(lv.cupCount);
         shuffler.swapCount = lv.swapCount;
@@ -138,7 +139,7 @@ public class TrickGameManager : MonoBehaviour
         // 간단 피드백: 클릭 컵 점프 + 색상
         if (clicked)
         {
-            var img = clicked.GetComponent<Image>();
+            var img = clicked.GetComponent<UnityEngine.UI.Image>();
             Color original = img ? img.color : Color.white;
             if (img) img.color = correct ? new Color(0.75f, 1f, 0.75f) : new Color(1f, 0.75f, 0.75f);
 
@@ -164,8 +165,25 @@ public class TrickGameManager : MonoBehaviour
         // 결과 처리: 정답이면 다음 레벨, 아니면 재도전
         //if (correct) NextLevel();
         //else RestartLevel();
+        SettingGameFinish(correct);
     }
+    public void SettingGameFinish(bool isClear)
+    {
+        GameFinishPanel.SetActive(true);
+        Debug.Log(PlayerDataManager.Instance.ReturnPlayerCoin());
+        int setmoney = (int)((currentLevelIndex+1) * 1.12);
+        if (isClear)
+        {
+            GameFinishPanel.GetComponent<GameFinishPanel>().PanelSettings(isClear, setmoney.ToString());
+            PlayerDataManager.Instance.UsePlayerMoney(setmoney);
+        }
+        else
+        {
+            GameFinishPanel.GetComponent<GameFinishPanel>().PanelSettings(isClear, setmoney.ToString());
+            PlayerDataManager.Instance.UsePlayerMoney(-setmoney);
 
+        }
+    }
     IEnumerator CoSelectTimeout(float sec)
     {
         yield return new WaitForSeconds(sec);
@@ -197,7 +215,7 @@ public class TrickGameManager : MonoBehaviour
             seq.SetLink(revealIconInstance.gameObject);
             yield return seq.WaitForCompletion();
 
-            //Destroy(revealIconInstance.gameObject); // 숨기고 시작
+            Destroy(revealIconInstance.gameObject); // 숨기고 시작
             revealIconInstance = null;
         }
         else
@@ -210,7 +228,10 @@ public class TrickGameManager : MonoBehaviour
                                 .WaitForCompletion();
         }
     }
-
+    public void SettingLevel(int getLevel)
+    {
+        currentLevelIndex = getLevel;
+    }
 }
 public class CupClickHandler : MonoBehaviour, IPointerClickHandler
 {

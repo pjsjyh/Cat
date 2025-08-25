@@ -113,4 +113,12 @@ public class PlayerDataManager : MonoBehaviour
     {
 
     }
+    public int ReturnPlayerCoin()
+    {
+        return playerData.playerPersonalData.PlayerCoin;
+    }
+    public void UsePlayerMoney(int getMoney)
+    {
+        playerData.playerPersonalData.PlayerCoin += getMoney;
+    }
 }

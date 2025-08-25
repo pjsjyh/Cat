@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "241940281632",
+    "firebase_url": "https://catroom-10079-default-rtdb.firebaseio.com",
+    "project_id": "catroom-10079",
+    "storage_bucket": "catroom-10079.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:241940281632:android:3dbcf8443cea538c0bbf45",
+        "android_client_info": {
+          "package_name": "com.catRoom"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjAipvKgFh9o_fDRXItWlfabJ2Yb5Tqi8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

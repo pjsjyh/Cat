@@ -15,13 +15,14 @@ public class FurnitureSetting : MonoBehaviour
     private TextMeshProUGUI peice_text;
     private Furniture furniture;
 
-    public List<int> shardCostsByLevel = new List<int> { 3, 5, 10 };
 
     private void settingBox()
     {
         furnitureTumnail.GetComponent<RawImage>().texture = furniture.FurnitureThumbnail.texture;
         furniturePeice.value = furniture.nowPeice;
-        peice_text.text = furniture.nowPeice.ToString() +" / "+ shardCostsByLevel[furniture.nowPeiceLevel];
+
+        int nowLevel = GameManager.Instance.shardCostsByLevel[furniture.nowPeiceLevel];
+        peice_text.text = furniture.nowPeice.ToString() +" / "+ nowLevel;
         level_text.text = "LV. "+furniture.nowPeiceLevel.ToString();
     }
     public void SettingFurniture(Furniture f)

@@ -9,8 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: aed2d944f3d469a4ea6498dfd9365ffe, type: 3}
   m_Name: New Trick Game Level Set
-  m_EditorClassIdentifier: Assembly-CSharp::TrickGameLevelSet
+  m_EditorClassIdentifier: 
   levels:
   - {fileID: 11400000, guid: 7d2b5e8d51f3ab84eaedcae534aaed0b, type: 2}
+  - {fileID: 11400000, guid: a7147c14f3e345047872ba7165ae5b16, type: 2}

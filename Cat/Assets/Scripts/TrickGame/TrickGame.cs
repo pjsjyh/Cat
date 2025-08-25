@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
-using System.Linq;
+
 [CreateAssetMenu(menuName = "TrickGame/Level")]
 public class TrickGame : ScriptableObject
 {
@@ -9,14 +9,3 @@ public class TrickGame : ScriptableObject
     [Min(1)] public int swapCount = 8;
 }
 
-[CreateAssetMenu(menuName = "TrickGame/Level Set")]
-public class TrickGameLevelSet : ScriptableObject
-{
-    public List<TrickGame> levels = new List<TrickGame>();
-
-    public TrickGame GetByLevelNumber(int levelNumber)
-        => levels.FirstOrDefault(l => l && l.level == levelNumber);
-
-    public TrickGame GetByIndex(int index)
-        => (index >= 0 && index < levels.Count) ? levels[index] : null;
-}
