@@ -11,6 +11,7 @@ EditorUserSettings:
       value: 50035157500d5f020f080f7716715b4446154c7a2e7822647b284e36e4b6653b
       flags: 0
     RecentlyUsedSceneGuid-1:
+<<<<<<< HEAD
       value: 0555030406575e08545f5e7748225c44414e4b2f7a712769282c1863b1b2663a
       flags: 0
     RecentlyUsedSceneGuid-2:
@@ -24,6 +25,15 @@ EditorUserSettings:
       flags: 0
     UnityEditor.ShaderGraph.InspectorWindow:
       value: 18135939215a0a5004000b0e15254b524c1119263f2d6a722016393ce1eb3d36e5d339f9a5602b2e2c07a37e0901373ae01e0008f707250d171df81a53a5485d41895ac825e0100ec20313c0d91cddccd3d0c7efcca9bd80908fecb0f9cfddf1eff4e7a1b1eae482f0fcaee1e1928b86d888ed969b938797a7cf
+=======
+      value: 05530d045d055f5a555e5870132259444e164f2b7d7f24642e7a4d60b1b76161
+      flags: 0
+    RecentlyUsedSceneGuid-2:
+      value: 5409055203530b0d080d5c7a4025094445154b7b2e29206929704e62b1e13569
+      flags: 0
+    RecentlyUsedSceneGuid-3:
+      value: 5401555750075d0c0c0a552341220b44404f4073782e71357d2f4832bbe5643a
+>>>>>>> f6cc9faf69424e7d36af86f39443e02c3629c2b8
       flags: 0
 >>>>>>> sy0715
     vcSharedLogLevel:
@@ -34,8 +44,8 @@ EditorUserSettings:
   m_VCDebugCmd: 0
   m_VCDebugOut: 0
   m_SemanticMergeMode: 2
-  m_DesiredImportWorkerCount: 3
-  m_StandbyImportWorkerCount: 2
+  m_DesiredImportWorkerCount: 1
+  m_StandbyImportWorkerCount: 1
   m_IdleImportWorkerShutdownDelay: 60000
   m_VCShowFailedCheckout: 1
   m_VCOverwriteFailedCheckoutAssets: 1
