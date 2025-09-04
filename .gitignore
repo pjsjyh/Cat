@@ -34,4 +34,5 @@ sysinfo.txt
 UserSettings/Layouts/
 !default-6000.dwlt
 # Firebase plugins (too large)
-Cat/Assets/FireBase/Plugins/**
+Cat/Assets/FireBase/Plugins/*
+Cat/Assets/FireBase/Plugins/
