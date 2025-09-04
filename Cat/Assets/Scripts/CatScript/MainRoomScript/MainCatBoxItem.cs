@@ -12,11 +12,13 @@ public class MainCatBoxItem : MonoBehaviour
 
     private Cat catData;
 
+    private CatInfo catInfo;
     private void Awake()
     {
-        catParent = CatInfo.Instance.catParent;
-        catSliding = CatInfo.Instance.catSliding;
-        checkPanel = CatInfo.Instance.checkPanel;
+        catInfo = GameObject.FindWithTag("InfoGroup").GetComponent<CatInfo>();
+        catParent = catInfo.catParent;
+        catSliding = catInfo.catSliding;
+        checkPanel = catInfo.checkPanel;
     }
 
     public void CheckIsPlaced(string id)
@@ -39,7 +41,7 @@ public class MainCatBoxItem : MonoBehaviour
     public void CatBoxClick()
     {
         //box 클릭해 고양이 생성
-        CatInfo.Instance.CatSettingOn(catData);
+        catInfo.CatSettingOn(catData);
         //if (CatManager.Instance.CatIsPlaced(catData.catId))
         //{
         //    //설치되어있는 가구의 box를 클릭

@@ -11,8 +11,9 @@ public class FurnitureManager : MonoBehaviour
 
     private Dictionary<string, GameObject> placedFurniture = new(); //설치된 가구 리스트
     private Dictionary<string, FurnitureSaveData> furnitureSaveData = new(); //가구 saveData
+
     public Dictionary<string, Furniture> allFurnitureData= new(); //모든 가구 데이터
-    
+
     private bool furnitureEditorModeOn = false;
 
     [SerializeField] 
@@ -35,13 +36,32 @@ public class FurnitureManager : MonoBehaviour
     }
     private void Start()
     {
+        setAllFurnitureData();
         SpawnFurnitures(PlayerDataManager.Instance.playerData.roomData.furnitureList);
         StartCoroutine(EndOfFrameBuild()); // ← 한 프레임 뒤에 정렬/등록
-        setAllFurnitureData();
+
+    }
+    private void OnEnable()
+    {
+        //처음 켜졌을 때 데이터 업데이트
+        List<Furniture> getPlayerFurniture = PlayerFurnitureManager.Instance.GetFurnitures();
+        foreach (var furniture in getPlayerFurniture)
+        {
+            if(placedFurniture.TryGetValue(furniture.furnitureId, out GameObject furnitureObj))
+            {
+                //설치되어있는 가구 일 경우 데이터 업데이트
+                furnitureObj.GetComponent<FurnitureDragHandler>().SettingFurnitureData(furniture);
+                placedFurniture[furniture.furnitureId] = furnitureObj;
+            }
+        }
+    }
+    private void OnDisable()
+    {
+        
     }
     public void SpawnFurnitures(List<FurnitureSaveData> furnitureList)
     {
-        //게임 시작 시 가구 셋팅
+        //게임 시작 시 설치되어있는 가구 셋팅
         foreach (var furnitureSaveData in furnitureList)
         {
             Furniture furnitureData = Resources.Load<Furniture>($"Data/Furniture/{furnitureSaveData.id}");
@@ -49,8 +69,10 @@ public class FurnitureManager : MonoBehaviour
             furnitureData.installPosition = furnitureSaveData.position;
             furnitureData.nowPeice = furnitureSaveData.nowPeice;
 
+            //내 데이터 모든 가구 리스트에 정보 업데이트하기.
             allFurnitureData[furnitureData.furnitureId] = (furnitureData);
 
+            //설치되어있는 가구 셋팅
             if (furnitureSaveData.isPlaced)
             {
                 GameObject furnitureObj = Instantiate(furnitureData.FurniturePrefab, furnitureSaveData.position, Quaternion.identity, furnitureParent);
@@ -59,11 +81,13 @@ public class FurnitureManager : MonoBehaviour
                 furnitureObj.GetComponent<FurnitureDragHandler>().SettingFurnitureData(furnitureData);
                 placedFurniture[furnitureSaveData.id] = furnitureObj;
             }
-           
+           //내 가구에 등록
+           PlayerFurnitureManager.Instance.AddFurniture( furnitureData );
         }
     }
     private void setAllFurnitureData()
     {
+        //모든 가구 종류 list 저장해두기
         Furniture[] allFurnitures = Resources.LoadAll<Furniture>("Data/Furniture");
         foreach (Furniture f in allFurnitures)
         {
@@ -118,26 +142,7 @@ public class FurnitureManager : MonoBehaviour
         placedFurniture.Remove(getId);
         furnitureSaveData.Remove(getId);
     }
-    public void DataUpdateFurniture()
-    {
-        //가구 꾸미기 종료 후 데이터 저장
-        foreach (var furniture in placedFurniture)
-        {
-            Furniture fData = furniture.Value.GetComponent<FurnitureDragHandler>().ReturnFurnitureData();
-
-            FurnitureSaveData saveData = new FurnitureSaveData
-            {
-                id = fData.furnitureId,
-                position = fData.installPosition,
-                isPlaced = fData.isPlaced,
-                installLocation = fData.installLocation,
-                nowPeice = fData.nowPeice,
-            };
-
-            furnitureSaveData[fData.furnitureId] = saveData;
-        }
-        PlayerDataManager.Instance.playerData.roomData.furnitureList = furnitureSaveData.Values.ToList();
-    }
+  
     public bool isFurnitureEditorModeOn()
     {
         return furnitureEditorModeOn;

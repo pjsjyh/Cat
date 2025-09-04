@@ -1,26 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
-
+using System.Linq;
 public class FurnitureInfo : MonoBehaviour
 {
     //boxlist 와 box sliding 기능
-    public static FurnitureInfo Instance { get; private set; }
     public GameObject furnitureParent;
     public GameObject furnitureSliding;
 
-    private Dictionary<string, GameObject> allBoxes = new();
-
-    private void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        Instance = this;
-        DontDestroyOnLoad(gameObject); // 씬이 바뀌어도 유지되게
-    }
+    private Dictionary<string, GameObject> allBoxes = new(); //만든 mainfurniture box list
 
     public void AddFurnitureBoxList(string getId, GameObject boxObj)
     {
@@ -43,5 +30,9 @@ public class FurnitureInfo : MonoBehaviour
             return allBoxes[getId];
         }
         return null;
+    }
+    public Dictionary<string, GameObject> ReturnAllFurnitureBoxList()
+    {
+        return allBoxes;
     }
 }

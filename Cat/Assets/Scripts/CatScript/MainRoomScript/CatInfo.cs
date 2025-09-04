@@ -3,23 +3,12 @@ using UnityEngine;
 
 public class CatInfo : MonoBehaviour
 {
-    public static CatInfo Instance { get; private set; }
     public GameObject catParent;
     public GameObject catSliding;
     public GameObject checkPanel;
 
     private Dictionary<string, GameObject> allBoxes = new();
-    private void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
 
-        Instance = this;
-        DontDestroyOnLoad(gameObject); // 씬이 바뀌어도 유지되게
-    }
     public void AddCatBoxList(string getId, GameObject boxObj)
     {
         //boxlist에 가구 저장.

@@ -118,6 +118,7 @@ public class GachaSystem : MonoBehaviour
     }
     public void OnClickGachaBtn(int cash, int boxnum)
     {
+        Debug.Log("가챠 들어옴");
         //클릭해서 가챠
         if (PlayerDataManager.Instance.ReturnPlayerCash() >= cash)
         {
@@ -127,9 +128,13 @@ public class GachaSystem : MonoBehaviour
             {
                 FurnitureManager.Instance.AddPieces(kvp.Key, kvp.Value);
             }
-            FurnitureManager.Instance.DataUpdateFurniture();
+            PlayerFurnitureManager.Instance.DataUpdateFurniture();
 
             totalGachaCount += 1; //가챠횟수 증가
+        }
+        else
+        {
+            Debug.Log("캐시가 부족합니다.");
         }
      
     }

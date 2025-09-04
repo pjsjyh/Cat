@@ -18,9 +18,10 @@ public class GachaBtn : MonoBehaviour
     void OnEnable() => myButton.onClick.AddListener(HandleClick);
     void OnDisable() => myButton.onClick.RemoveListener(HandleClick);
 
-    void HandleClick()
+    public void HandleClick()
     {
         // ★ 여기서 원하는 값 두 개를 넘겨 호출
+        Debug.Log("!");
         gacha.OnClickGachaBtn(thisCash, boxnum);
     }
 }

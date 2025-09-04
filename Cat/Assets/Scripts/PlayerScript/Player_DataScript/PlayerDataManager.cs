@@ -1,5 +1,7 @@
 using FadeInOut;
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
@@ -9,6 +11,10 @@ public class PlayerDataManager : MonoBehaviour
 {
     public static PlayerDataManager Instance { get; private set; }
     public PlayerData playerData;
+    public List<Furniture> playerFurniture;
+    public List<Cat> playerCat;
+
+    public event Action OnFurnitureChanged;
 
     private void Awake()
     {
@@ -24,10 +30,10 @@ public class PlayerDataManager : MonoBehaviour
         LoadData();
     }
     //데이터 불러오기. 기본아이템 제공을 위해 데이터가 없으면 기본 아이템 제공
-    private void LoadData()
+    private async void LoadData()
     {
-        playerData = DataManager.LoadData();
-
+        // playerData = DataManager.LoadData();
+        PlayerData playerData = await FirebaseSave.Instance.LoadUserDataAsync();
         if (playerData == null)
         {
             playerData = new PlayerData();
@@ -60,7 +66,7 @@ public class PlayerDataManager : MonoBehaviour
                 nowPeice =0,
             });
         }
-        Debug.Log(playerData.playerPersonalData.PlayerName);
+        Debug.Log(playerData.playerPersonalData.PlayerCash);
         StartCoroutine(LoadScene());
     }
     //종료시 데이터 자동 저장

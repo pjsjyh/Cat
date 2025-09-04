@@ -8,30 +8,30 @@ public class MainCatlListSetting : MonoBehaviour
     //메인룸 고양이 리스트 셋팅
     public GameObject parentObject;
     public GameObject furnitureListBox;
+
+    private CatInfo catInfo;
     void Start()
     {
-
+        catInfo = GameObject.FindWithTag("InfoGroup").GetComponent<CatInfo>();
     }
 
     private void OnEnable()
     {
-        Debug.Log("!!!!");
         SettingCatListBox();
     }
     public void SettingCatListBox()
     {
         Cat[] allCat = Resources.LoadAll<Cat>("Data/Cat");
-        Debug.Log(allCat.Length);
-        Debug.Log(PlayerDataManager.Instance.playerData.catData.catDataList.Count);
         foreach (CatSaveData cat in PlayerDataManager.Instance.playerData.catData.catDataList)
         {
             Debug.Log(cat.id);
             Cat matched = allCat.FirstOrDefault(f => f.catId == cat.id);
             GameObject box;
+            if(catInfo==null) catInfo = GameObject.FindWithTag("InfoGroup").GetComponent<CatInfo>();
             //box list에 포함되는지 확인
-            if (CatInfo.Instance.FindCatBoxInList(matched.catId))
+            if (catInfo.FindCatBoxInList(matched.catId))
             {
-                box = CatInfo.Instance.FindCatBox(matched.catId);
+                box = catInfo.FindCatBox(matched.catId);
             }
             else
             {
@@ -43,7 +43,7 @@ public class MainCatlListSetting : MonoBehaviour
             try
             {
                 //boxlist에 추가
-                CatInfo.Instance.AddCatBoxList(matched.catId, box);
+                catInfo.AddCatBoxList(matched.catId, box);
                 RawImage image = grandChild.GetComponent<RawImage>();
                 image.texture = matched.CatThumbnail.texture;
                 box.GetComponent<MainCatBoxItem>().SettingData(matched);

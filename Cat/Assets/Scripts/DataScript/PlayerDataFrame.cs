@@ -18,7 +18,7 @@ public class PlayerDataFrame : MonoBehaviour
             {
                 PlayerName = "newName222",
                 PlayerCoin = 3000,
-                PlayerCash = 0,
+                PlayerCash = 3000,
                 PlayerPlace = 0, //플레이어 현재위치
             };
 

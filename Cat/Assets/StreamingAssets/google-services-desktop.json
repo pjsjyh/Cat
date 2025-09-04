@@ -8,12 +8,25 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:241940281632:android:3dbcf8443cea538c0bbf45",
+        "mobilesdk_app_id": "1:241940281632:android:bd121537eba4337a0bbf45",
         "android_client_info": {
-          "package_name": "com.catRoom"
+          "package_name": "com.catroom"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "241940281632-9059tudh12hoddaloa4m9lec7ulq9dki.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.catroom",
+            "certificate_hash": "2259c138f31166a243fdd9f025a3d1d93bebf8d0"
+          }
+        },
+        {
+          "client_id": "241940281632-7m88qaebgqlbldfu288a8oplbnr86psj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDjAipvKgFh9o_fDRXItWlfabJ2Yb5Tqi8"
@@ -21,7 +34,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "241940281632-7m88qaebgqlbldfu288a8oplbnr86psj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

@@ -11,9 +11,16 @@ public static class DataManager
         if (playerData != null){
             string json = JsonUtility.ToJson(playerData, true);
             File.WriteAllText(savePath, json);
+            FirebaseSave.Instance.SaveUserData(json);
             Debug.Log("저장 완료: " + json);
         }
         
+    }
+    public static void SaveLocalData(PlayerData playerData)
+    {
+        string json = JsonUtility.ToJson(playerData, true);
+        File.WriteAllText(savePath, json);
+        Debug.Log("로컬저장: "+json);
     }
     public static PlayerData LoadData()
     {
