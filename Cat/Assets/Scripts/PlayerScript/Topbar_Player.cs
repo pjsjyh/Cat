@@ -18,7 +18,7 @@ public class Topbar_Player : MonoBehaviour
     public void Init(PlayerPersonalData data)
     {
         personalData = data;
-
+        Debug.Log(personalData.PlayerCash);
         // 초기 값 세팅
         nameText.text = personalData.PlayerName;
         coinText.text = $"{personalData.PlayerCoin}";

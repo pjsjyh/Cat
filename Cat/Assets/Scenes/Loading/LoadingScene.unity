@@ -663,6 +663,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1487476023}
   - component: {fileID: 1487476022}
+  - component: {fileID: 1487476024}
   m_Layer: 0
   m_Name: PlayerManager
   m_TagString: Untagged
@@ -682,6 +683,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e50b4c10fc15c784da68b6af06928144, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerData:
+    playerPersonalData:
+      _playerName: newName222
+      _playerCoin: 3000
+      _playerCash: 0
+      _playerPlace: 0
+    roomData:
+      furnitureList: []
+    catData:
+      catDataList: []
+  playerFurniture: []
+  playerCat: []
 --- !u!4 &1487476023
 Transform:
   m_ObjectHideFlags: 0
@@ -697,6 +710,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1487476024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1487476021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fbf8d5d4141b1f48944264c52b4e66d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1631256031
 GameObject:
   m_ObjectHideFlags: 0

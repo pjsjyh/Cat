@@ -14,9 +14,8 @@ public class FurnitureBoxItem : MonoBehaviour
     
     private void Awake()
     {
-        furnitureParent = FurnitureInfo.Instance.furnitureParent;
-        furnitureSliding = FurnitureInfo.Instance.furnitureSliding;
-        
+        furnitureParent = GameObject.FindWithTag("FurnitureFloor");
+        furnitureSliding = GameObject.FindWithTag("FurnitureSliding");
     }
     public void CheckIsPlaced(string id)
     {
@@ -58,7 +57,12 @@ public class FurnitureBoxItem : MonoBehaviour
             furnitureObj.GetComponent<FurnitureDragHandler>().SettingFurnitureData(furnitureData);
             
         }
-        furnitureSliding.GetComponent<PanelSliding>().SlideDown();
+        
+        if (!furnitureSliding)
+        {
+            furnitureSliding = GameObject.FindWithTag("FurnitureSliding");
+        }
 
+        furnitureSliding.GetComponent<PanelSliding>().SlideDown();
     }
 }

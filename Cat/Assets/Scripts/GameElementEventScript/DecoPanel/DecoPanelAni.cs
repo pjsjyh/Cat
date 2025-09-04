@@ -29,8 +29,8 @@ public class DecoPanelAni : MonoBehaviour
                 else
                     getModal.SetActive(false);
             }
-            
-            FurnitureManager.Instance.DataUpdateFurniture();
+
+            PlayerFurnitureManager.Instance.DataUpdateFurniture();
             CatManager.Instance.DataUpdateCat();
         }
         else

@@ -35,7 +35,7 @@ public class CatRoomListSetting : MonoBehaviour
 
             box.GetComponent<CatRoomCatBoxItem>().SettingCatData(cat); // 내용 갱신
         }
-
+        SettingFirstData();
     }
     public void SettingFirstData()
     {

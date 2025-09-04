@@ -16,5 +16,5 @@ MonoBehaviour:
   displayName: Trick Game
   description: 
   icon: {fileID: 0}
-  BackgroundImg: {fileID: 21300000, guid: e12fd06f2f36caf449f2fd41b31244af, type: 3}
+  BackgroundImg: {fileID: 21300000, guid: b1bbd0d09a25cd549bb639e5673a89d4, type: 3}
   sceneName: TrickGame

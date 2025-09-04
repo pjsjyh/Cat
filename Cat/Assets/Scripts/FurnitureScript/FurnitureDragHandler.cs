@@ -14,6 +14,8 @@ public class FurnitureDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandl
 
     private Furniture furniture; //받은 가구 데이터
 
+    private FurnitureInfo furnitureInfo;
+
     // ▼ 추가: 앞뒤 제어용
     [SerializeField] private Transform zOrderParent;   // 가구들이 모인 부모(없으면 자기 parent)
     [SerializeField] private bool autoDepthByY = true; // 드랍 시 Y기준 자동 정렬 여부
@@ -24,6 +26,8 @@ public class FurnitureDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandl
 
     private void Start()
     {
+        furnitureInfo = GameObject.FindWithTag("InfoGroup").GetComponent<FurnitureInfo>();
+
         rectTransform = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
         canvasRect = transform.parent.GetComponent<RectTransform>();
@@ -78,7 +82,7 @@ public class FurnitureDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandl
     public void OnEndDrag(PointerEventData eventData)
     {
         if (!isEditoreMode || !FurnitureManager.Instance.isFurnitureEditorModeOn()) return;
-        sorter.SortNow();
+       // sorter.SortNow();
         //if (autoDepthByY) SortSiblingsByY((RectTransform)zOrderParent);
         //else rectTransform.SetSiblingIndex(originalIndex);
     }
@@ -95,18 +99,19 @@ public class FurnitureDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandl
         //가구 설치 ok
         moveBox.SetActive(false);
         isEditoreMode = false;
-        Debug.Log(furniture.furnitureId+"");
         FurnitureManager.Instance.AddFurniture(furniture.furnitureId, this.gameObject);
-        GameObject obj = FurnitureInfo.Instance.FindFurnitureBox(furniture.furnitureId);
+        GameObject obj = furnitureInfo.FindFurnitureBox(furniture.furnitureId);
         obj.GetComponent<FurnitureBoxItem>().CheckIsPlaced(furniture.furnitureId);
 
         FurnitureSettingOnData();
     }
     public void SettingNo()
     {
-        GameObject obj = FurnitureInfo.Instance.FindFurnitureBox(furniture.furnitureId);
+        GameObject obj = furnitureInfo.FindFurnitureBox(furniture.furnitureId);
         obj.GetComponent<FurnitureBoxItem>().RemoveFurnitureCheck();
         FurnitureManager.Instance.RemoveFurnitureInPlace(furniture.furnitureId);
+        furniture.isPlaced = false;
+        PlayerFurnitureManager.Instance.UpdateFurniture(furniture);
         Destroy(this.gameObject);
     }
 
@@ -116,13 +121,16 @@ public class FurnitureDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandl
         furniture.installPosition = this.transform.position;
         furniture.isPlaced = true;
 
+        PlayerFurnitureManager.Instance.UpdateFurniture(furniture);
     }
-    public void FurnitureSettingDeleteData()
-    {
-        //가구 설치 삭제 후 데이터 셋팅
-        furniture.isPlaced = false;
+    //public void FurnitureSettingDeleteData()
+    //{
+    //    //가구 설치 삭제 후 데이터 셋팅
+    //    furniture.isPlaced = false;
+    //    Debug.Log("삭제");
+    //    PlayerFurnitureManager.Instance.UpdateFurniture(furniture);
 
-    }
+    //}
     public void SettingFurnitureData(Furniture getData)
     {
         furniture = getData;

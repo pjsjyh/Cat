@@ -1,76 +1,94 @@
 ﻿using Firebase;
 using Firebase.Auth;
-using Google;
-using System.Net;
-using System.Threading.Tasks;
 using UnityEngine;
-
+using Firebase.Database;
+using System.Collections.Generic;
 public class GoogleLogin : MonoBehaviour
 {
     private FirebaseAuth auth;
-    private GoogleSignInConfiguration configuration;
-
-    void Start()
+    private static GoogleLogin instance;
+    void Awake()
     {
-        // Firebase 초기화
-        FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task => {
-            if (task.Result == DependencyStatus.Available)
-            {
-                auth = FirebaseAuth.DefaultInstance;
-            }
-        });
-
-        // 구글 로그인 설정 (Web Client ID는 Firebase 콘솔 → 인증 → 구글 로그인 설정에 있음)
-        configuration = new GoogleSignInConfiguration
+        if (instance == null)
         {
-            WebClientId = "YOUR_WEB_CLIENT_ID.apps.googleusercontent.com",
-            RequestIdToken = true
-        };
-    }
-
-    public void OnGoogleLoginClick()
-    {
-        GoogleSignIn.Configuration = configuration;
-        GoogleSignIn.Configuration.UseGameSignIn = false;
-        GoogleSignIn.Configuration.RequestEmail = true;
-
-        GoogleSignIn.DefaultInstance.SignIn().ContinueWith(OnAuthenticationFinished);
-    }
-
-    private void OnAuthenticationFinished(Task<GoogleSignInUser> task)
-    {
-        #if UNITY_EDITOR
-    Debug.Log("구글 로그인은 에디터에서는 실행 불가. (모바일 빌드 필요)");
-        #else
-       if (task.IsFaulted)
-    {
-        Debug.LogError("Google Sign-In Failed: " + task.Exception);
-        return;
-    }
-    if (task.IsCanceled)
-    {
-        Debug.LogWarning("Google Sign-In Canceled");
-        return;
-    }
-
-    // 성공
-    GoogleSignInUser gUser = task.Result;
-    Debug.Log($"✅ Google Sign-In Success: {gUser.DisplayName}, {gUser.Email}");
-
-    // Firebase Auth로 연동
-    Credential credential = GoogleAuthProvider.GetCredential(gUser.IdToken, null);
-    auth.SignInWithCredentialAsync(credential).ContinueWith(authTask =>
-    {
-        if (authTask.IsFaulted || authTask.IsCanceled)
-        {
-            Debug.LogError("Firebase Sign-In Failed: " + authTask.Exception);
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+            gameObject.name = "GoogleLogin";
+            Debug.Log("GoogleLogin GameObject 생성 및 DontDestroyOnLoad 설정");
         }
         else
         {
-            FirebaseUser newUser = authTask.Result;
-            Debug.Log($"🎉 Firebase Sign-In Success: {newUser.DisplayName}, {newUser.Email}, UID: {newUser.UserId}");
+            Destroy(gameObject);
         }
-    });
-        #endif
+    }
+    void Start()
+    {
+        //FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task => {
+        //    if (task.Result == DependencyStatus.Available)
+        //    {
+        //        auth = FirebaseAuth.DefaultInstance;
+        //        Debug.Log("Firebase 초기화 완료");
+        //    }
+        //});
+    }
+    public void SetAuth(FirebaseAuth getAuth)
+    {
+        auth = getAuth;
+    }
+    // Java Plugin 호출
+    public void OnGoogleLoginClick()
+    {
+        using (AndroidJavaClass plugin = new AndroidJavaClass("com.catroom.google.GoogleSignInPlugin"))
+        {
+            plugin.CallStatic("Init", "241940281632-7m88qaebgqlbldfu288a8oplbnr86psj.apps.googleusercontent.com");
+            plugin.CallStatic("SignIn");
+        }
+    }
+
+    // Java → Unity로 전달되는 idToken 처리
+    public void OnGoogleIdToken(string idToken)
+    {
+        if (idToken.StartsWith("ERROR:"))
+        {
+            Debug.LogError("Google Sign-In 실패: " + idToken);
+            return;
+        }
+
+        Credential googleCred = GoogleAuthProvider.GetCredential(idToken, null);
+
+        FirebaseUser currentUser = auth.CurrentUser;
+
+        if (currentUser != null && currentUser.IsAnonymous)
+        {
+            // ✅ 익명 계정 → 구글 계정으로 업그레이드
+            currentUser.LinkWithCredentialAsync(googleCred).ContinueWith(task =>
+            {
+                if (task.IsFaulted || task.IsCanceled)
+                {
+                    Debug.LogError("계정 연동 실패: " + task.Exception);
+                }
+                else
+                {
+                    FirebaseUser linkedUser = task.Result.User;
+                    Debug.Log($"구글 계정으로 연동 완료! UID 유지: {linkedUser.UserId}");
+                }
+            });
+        }
+        else
+        {
+            // ✅ 이미 구글 로그인 한 경우 → 그냥 로그인
+            auth.SignInWithCredentialAsync(googleCred).ContinueWith(task =>
+            {
+                if (task.IsFaulted || task.IsCanceled)
+                {
+                    Debug.LogError("Firebase 구글 로그인 실패: " + task.Exception);
+                }
+                else
+                {
+                    FirebaseUser newUser = task.Result;
+                    Debug.Log($"구글 로그인 성공: {newUser.DisplayName}, UID: {newUser.UserId}");
+                }
+            });
+        }
     }
 }

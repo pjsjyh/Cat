@@ -6,6 +6,11 @@ public class MainCatSetting : MonoBehaviour
     private Cat catData;
     [SerializeField] private TextMeshProUGUI catSettingWord;
 
+    private CatInfo catInfo;
+    void Start()
+    {
+        catInfo = GameObject.FindWithTag("InfoGroup").GetComponent<CatInfo>();
+    }
     public void OnEnable()
     {
         if (catData != null) {
@@ -41,7 +46,7 @@ public class MainCatSetting : MonoBehaviour
         GameObject findCat = CatManager.Instance.FindCat(catData.catId);
         findCat.GetComponent<CatHandler>().CatRoom(-1);
         CatManager.Instance.RemoveCatInPlace(catData.catId);
-        GameObject findCatBox = CatInfo.Instance.FindCatBox(catData.catId);
+        GameObject findCatBox = catInfo.FindCatBox(catData.catId);
         findCatBox.GetComponent<MainCatBoxItem>().RemoveCatCheck();
         Destroy(findCat);
 
@@ -68,12 +73,12 @@ public class MainCatSetting : MonoBehaviour
             //설치 안된 가구의 box클릭
             GameObject catPrefab = catData.catPrefab;
             GameObject catObj = Instantiate(catPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-            catObj.transform.SetParent(CatInfo.Instance.catParent.transform, false);
+            catObj.transform.SetParent(catInfo.catParent.transform, false);
             catObj.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
             catObj.GetComponent<CatHandler>().SettingCatData(catData);
 
         }
-        GameObject findCatBox = CatInfo.Instance.FindCatBox(catData.catId);
+        GameObject findCatBox = catInfo.FindCatBox(catData.catId);
         findCatBox.GetComponent <MainCatBoxItem>().CheckIsPlaced(catData.catId);
         //furnitureSliding.GetComponent<PanelSliding>().SlideDown();
 
