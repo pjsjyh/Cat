@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 232ce8e5e6725534b8bf4849d349aeea, type: 3}
+  m_Name: fish
+  m_EditorClassIdentifier: 
+  fruitSprite: {fileID: 21300000, guid: 7c18fb0c6f9e5304cae95c380267ffe1, type: 3}
+  slicedSprites:
+  - {fileID: 21300000, guid: b6db9f035e782c7409c80226f662fa39, type: 3}
+  - {fileID: 21300000, guid: 65b5ab24cb4971746923a76b5f63bb33, type: 3}
+  particleColor: '#FF0000'
+  isBomb: 0
+  isSpecial: 1
+  baseScore: 200
